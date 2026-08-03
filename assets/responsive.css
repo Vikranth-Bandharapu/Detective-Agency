@@ -1,0 +1,126 @@
+/* Responsive Design CSS */
+
+/* Large Desktop */
+@media (max-width: 1440px) {
+  .hero-section {
+    min-height: 90vh;
+  }
+}
+
+/* Tablet / Small Desktop */
+@media (max-width: 1024px) {
+  .section-padding {
+    padding: 80px 0;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .hamburger-menu {
+    display: block;
+  }
+  
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(10, 15, 26, 0.98);
+    z-index: 1040;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 30px;
+  }
+
+  .mobile-nav-overlay.active {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-overlay .nav-link {
+    font-size: 1.5rem;
+    margin: 15px 0;
+    display: inline-block;
+  }
+
+  .mobile-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2rem;
+    color: var(--accent-color);
+    cursor: pointer;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-section {
+    min-height: 80vh;
+    text-align: center;
+    padding-top: 100px;
+  }
+  
+  .hero-overlay {
+    background: linear-gradient(to bottom, rgba(5, 8, 15, 0.8), rgba(10, 15, 26, 0.9));
+  }
+
+  .btn-gold, .btn-outline-gold {
+    display: block;
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 15px !important;
+    text-align: center;
+  }
+  
+  .footer-widget {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .error-code {
+    font-size: 5rem;
+  }
+
+  .breadcrumb-section {
+    padding: 120px 0 60px;
+  }
+  
+  h1.display-4 {
+    font-size: 2.2rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+  }
+}
