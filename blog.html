@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intelligence Blog | Stackly</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+  <!-- 1. HEADER SECTION -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <a class="navbar-brand" href="index.html"><img src="assets/logo.webp" alt="Stackly Logo"></a>
+        <div class="hamburger-menu"><i class="fas fa-bars"></i></div>
+        <div class="collapse navbar-collapse desktop-nav" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="case-studies.html">Cases</a></li>
+            <li class="nav-item"><a class="nav-link text-accent" href="blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <div class="d-flex gap-3">
+            <a href="login.html" class="btn-outline-gold">Login</a>
+            <a href="signup.html" class="btn-gold">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav-overlay">
+    <div class="mobile-close-btn"><i class="fas fa-times"></i></div>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Cases</a>
+    <a href="blog.html" class="nav-link text-accent">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="login.html" class="nav-link">Login</a>
+    <a href="signup.html" class="nav-link">Sign Up</a>
+  </div>
+
+  <!-- 2. HERO / BREADCRUMB SECTION -->
+  <section class="breadcrumb-section text-center">
+    <div class="container" data-aos="fade-up">
+      <h1 class="display-4 text-white fw-bold">Intelligence Dispatch</h1>
+      <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb justify-content-center">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Blog</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 3. SECURITY ALERTS TICKER SECTION -->
+  <section class="bg-primary-dark border-bottom" style="border-color: var(--error-color) !important;">
+    <div class="container py-2 d-flex align-items-center">
+      <span class="badge bg-danger me-3">GLOBAL ALERT</span>
+      <marquee class="text-white small mb-0">Ransomware attacks targeting logistics sector up 300% in Q3. Verify 2FA on all corporate VPN endpoints immediately.</marquee>
+    </div>
+  </section>
+
+  <!-- 4. CATEGORIES FILTER SECTION -->
+  <section class="py-4 border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container text-center">
+      <div class="d-flex justify-content-center flex-wrap gap-3">
+        <button class="btn btn-gold btn-sm">All Intel</button>
+        <button class="btn btn-outline-gold btn-sm">Cybersecurity</button>
+        <button class="btn btn-outline-gold btn-sm">Corporate Fraud</button>
+        <button class="btn btn-outline-gold btn-sm">Surveillance Tech</button>
+        <button class="btn btn-outline-gold btn-sm">Case Studies</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FEATURED ARTICLE SECTION -->
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="mb-4">Classified Feature</h2>
+      <div class="card bg-card border-secondary text-white" data-aos="fade-up">
+        <div class="row g-0">
+          <div class="col-md-6">
+            <img src="assets/corporate_fraud.webp" class="img-fluid rounded-start h-100 object-fit-cover" alt="Featured">
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="card-body p-4 p-lg-5">
+              <span class="text-accent small fw-bold mb-2 d-block"><i class="fas fa-shield-alt me-2"></i>Corporate Fraud</span>
+              <h3 class="card-title text-white">The Phantom Executive: How $5M Disappeared Without a Trace</h3>
+              <p class="card-text text-muted mt-3">An inside look at our latest high-profile corporate investigation involving offshore shell companies and synthesized voices.</p>
+              <p class="card-text"><small class="text-muted">Declassified on Oct 24, 2026 &middot; 8 min read</small></p>
+              <a href="#" class="btn-outline-gold mt-3 d-inline-block">Read Dossier</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. RECENT POSTS GRID SECTION -->
+  <section class="section-padding bg-primary-dark border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container">
+      <h3 class="mb-5">Recent Intelligence</h3>
+      <div class="row g-4">
+        <!-- Post 1 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up">
+          <div class="card bg-card border-secondary h-100">
+            <img src="assets/cyber_forensics.webp" class="card-img-top" alt="Cyber" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="text-accent small fw-bold"><i class="fas fa-network-wired me-2"></i>Cyber Forensics</span>
+              <h5 class="card-title text-white mt-2">Zero-Day Vulnerabilities in Smart Homes</h5>
+              <p class="card-text text-muted small">Are your smart locks providing a backdoor to physical intruders?</p>
+            </div>
+            <div class="card-footer bg-transparent border-secondary text-muted small">
+              Oct 18, 2026 &middot; 5 min read
+            </div>
+          </div>
+        </div>
+        <!-- Post 2 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="card bg-card border-secondary h-100">
+            <img src="assets/surveillance_tech.webp" class="card-img-top" alt="Surveillance" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="text-accent small fw-bold"><i class="fas fa-video me-2"></i>Field Operations</span>
+              <h5 class="card-title text-white mt-2">The Evolution of Micro-Drones in Surveillance</h5>
+              <p class="card-text text-muted small">How airborne tech is changing the way private investigators track targets.</p>
+            </div>
+            <div class="card-footer bg-transparent border-secondary text-muted small">
+              Oct 12, 2026 &middot; 6 min read
+            </div>
+          </div>
+        </div>
+        <!-- Post 3 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="card bg-card border-secondary h-100">
+            <img src="assets/investigator_pro.webp" class="card-img-top" alt="Private" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="text-accent small fw-bold"><i class="fas fa-user-secret me-2"></i>Private Investigation</span>
+              <h5 class="card-title text-white mt-2">Identifying the Signs of Matrimonial Infidelity</h5>
+              <p class="card-text text-muted small">A veteran operative's guide to the digital crumbs left by cheating spouses.</p>
+            </div>
+            <div class="card-footer bg-transparent border-secondary text-muted small">
+              Oct 05, 2026 &middot; 4 min read
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. POPULAR TAGS SECTION -->
+  <section class="py-5 border-top border-bottom" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container text-center">
+      <h4 class="mb-4">Trending Search Terms</h4>
+      <div class="d-flex justify-content-center flex-wrap gap-2">
+        <span class="badge border border-secondary text-muted p-2">#Ransomware</span>
+        <span class="badge border border-secondary text-muted p-2">#AssetRecovery</span>
+        <span class="badge border border-secondary text-muted p-2">#GPS</span>
+        <span class="badge border border-secondary text-muted p-2">#BackgroundCheck</span>
+        <span class="badge border border-secondary text-muted p-2">#ForensicAccounting</span>
+        <span class="badge border border-secondary text-muted p-2">#OSINT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. PAGINATION SECTION -->
+  <section class="py-5">
+    <div class="container">
+      <nav aria-label="Blog pagination">
+        <ul class="pagination justify-content-center mb-0">
+          <li class="page-item disabled"><a class="page-link bg-card text-muted border-secondary" href="#">Previous</a></li>
+          <li class="page-item active"><a class="page-link bg-gold text-dark border-0 fw-bold" href="#">1</a></li>
+          <li class="page-item"><a class="page-link bg-card text-white border-secondary" href="#">2</a></li>
+          <li class="page-item"><a class="page-link bg-card text-white border-secondary" href="#">3</a></li>
+          <li class="page-item"><a class="page-link bg-card text-white border-secondary" href="#">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 9. NEWSLETTER CTA SECTION -->
+  <section class="section-padding bg-primary-dark border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container text-center">
+      <h3 class="mb-3 text-white">Subscribe to the Intel Brief</h3>
+      <p class="text-muted mb-4 mx-auto" style="max-width: 500px;">Get classified reports and security best practices delivered to your encrypted inbox weekly.</p>
+      <form class="d-inline-flex mx-auto w-100 needs-validation" style="max-width: 400px;" id="newsletterForm" novalidate>
+        <input type="email" class="form-control me-2" placeholder="Email Address" required>
+        <button type="submit" class="btn-gold border-0">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 10. FOOTER SECTION -->
+      <footer class="site-footer border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-12 footer-widget mb-5 mb-lg-0">
+          <img src="assets/logo.webp" alt="Stackly Logo" class="mb-4" style="height: 50px;">
+          <p class="text-muted pe-lg-5">The premier choice for corporate intelligence, private investigation, and cyber forensics globally.</p>
+        </div>
+        <div class="col-lg-2 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Quick Links</h5>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="services.html" class="footer-link">Services</a>
+          <a href="case-studies.html" class="footer-link">Cases</a>
+          <a href="blog.html" class="footer-link">Blog</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Services</h5>
+          <a href="404.html" class="footer-link">Corporate Fraud</a>
+          <a href="404.html" class="footer-link">Cyber Forensics</a>
+          <a href="404.html" class="footer-link">Surveillance</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Secure Contact</h5>
+          <p class="text-muted mb-2"><i class="fas fa-phone-alt text-accent me-2"></i> +91 98765 43210</p>
+          <p class="text-muted mb-4"><i class="fas fa-envelope text-accent me-2"></i> intel@stackly.agency</p>
+        </div>
+      </div>
+      <div class="row border-top mt-5 pt-4" style="border-color: rgba(255,255,255,0.05) !important;">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="text-muted small mb-0">&copy; 2026 Stackly Detective Agency. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="404.html" class="text-muted small me-3">Privacy Policy</a>
+          <a href="404.html" class="text-muted small">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="assets/main.js"></script>
+  <script src="assets/validation.js"></script>
+  <script src="assets/animations.js"></script>
+</body>
+</html>

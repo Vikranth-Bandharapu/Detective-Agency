@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Stackly</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+  <!-- 1. HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <a class="navbar-brand" href="index.html">
+          <img src="assets/logo.webp" alt="Stackly Detective Agency Logo" loading="lazy">
+        </a>
+        <div class="hamburger-menu"><i class="fas fa-bars"></i></div>
+        <div class="collapse navbar-collapse desktop-nav" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="case-studies.html">Cases</a></li>
+            <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <div class="d-flex gap-3">
+            <a href="login.html" class="btn-outline-gold">Login</a>
+            <a href="signup.html" class="btn-gold">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="mobile-nav-overlay">
+    <div class="mobile-close-btn"><i class="fas fa-times"></i></div>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Cases</a>
+    <a href="blog.html" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="login.html" class="nav-link">Login</a>
+    <a href="signup.html" class="nav-link text-accent">Sign Up</a>
+  </div>
+
+  <!-- 2. 404 HERO -->
+  <section class="section-padding bg-primary-dark error-page-container" style="padding-top: 150px;">
+    <div class="container text-center" data-aos="zoom-in">
+      <div class="position-relative d-inline-block">
+        <h1 class="error-code">404</h1>
+        <div class="position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.1;">
+          <i class="fas fa-search fa-10x text-white"></i>
+        </div>
+      </div>
+      <h2 class="text-white mt-4">Dead End Reached.</h2>
+      <p class="text-muted mt-3 mb-5 mx-auto" style="max-width: 500px;">The intelligence or file you are looking for has been classified, moved, or never existed in our database.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="index.html" class="btn-gold">Back to Base (Home)</a>
+        <button onclick="window.history.back()" class="btn-outline-gold">Go Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SEARCH INVESTIGATIONS -->
+  <section class="section-padding border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center" data-aos="fade-up">
+      <h3 class="mb-4">Search Our Database</h3>
+      <form class="d-inline-flex mx-auto w-100" style="max-width: 500px;" action="404.html">
+        <input type="text" class="form-control me-2" placeholder="Search keywords...">
+        <button type="submit" class="btn-gold border-0"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 4. QUICK LINKS -->
+  <section class="section-padding bg-card border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center" data-aos="fade-up">
+      <h3 class="mb-4">Helpful Navigation</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a href="services.html" class="btn btn-dark border border-secondary text-white">Services</a>
+        <a href="case-studies.html" class="btn btn-dark border border-secondary text-white">Case Studies</a>
+        <a href="contact.html" class="btn btn-dark border border-secondary text-white">Contact Us</a>
+        <a href="login.html" class="btn btn-dark border border-secondary text-white">Client Portal</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. POPULAR SERVICES 1 -->
+  <section class="section-padding border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h3 class="mb-4">Recommended Service: Cyber Forensics</h3>
+      <p class="text-muted mx-auto" style="max-width: 600px;">Lost data? Our cyber division can recover deleted files and track digital footprints.</p>
+      <a href="404.html" class="text-accent fw-bold">Explore Cyber Division <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- 6. POPULAR SERVICES 2 -->
+  <section class="section-padding bg-primary-dark border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h3 class="mb-4">Recommended Service: Corporate Fraud</h3>
+      <p class="text-muted mx-auto" style="max-width: 600px;">Protect your assets with our comprehensive corporate intelligence services.</p>
+      <a href="404.html" class="text-accent fw-bold">Explore Corporate Services <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- 7. WHY CHOOSE US -->
+  <section class="section-padding border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h3 class="mb-4">Why Trust Stackly?</h3>
+      <div class="row g-4 mt-2">
+        <div class="col-md-4"><i class="fas fa-shield-alt fa-2x text-accent mb-2"></i><h5>Discreet</h5></div>
+        <div class="col-md-4"><i class="fas fa-gavel fa-2x text-accent mb-2"></i><h5>Legal</h5></div>
+        <div class="col-md-4"><i class="fas fa-eye-slash fa-2x text-accent mb-2"></i><h5>Confidential</h5></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CONTACT CTA -->
+  <section class="section-padding bg-card border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h3 class="mb-4">Need Immediate Assistance?</h3>
+      <a href="contact.html" class="btn-gold">Contact Emergency Support</a>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section class="section-padding border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h3 class="mb-4">Frequently Asked Questions</h3>
+      <p class="text-muted">Can't find the page? Visit our <a href="contact.html" class="text-accent">Contact page</a> to ask us directly.</p>
+    </div>
+  </section>
+
+  <!-- 10. NEWSLETTER & 11. FOOTER -->
+  <!-- Combining them as Sections -->
+  <section class="py-5 bg-card border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h4 class="text-white mb-3"><i class="fas fa-envelope-open-text text-accent me-2"></i> Security Briefing</h4>
+      <form class="d-inline-flex mx-auto w-100 needs-validation" style="max-width: 400px;" id="newsletterForm" novalidate>
+        <input type="email" class="form-control me-2" placeholder="Secure Email" required>
+        <button type="submit" class="btn-gold border-0">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+      <footer class="site-footer border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-12 footer-widget mb-5 mb-lg-0">
+          <img src="assets/logo.webp" alt="Stackly Logo" class="mb-4" style="height: 50px;">
+          <p class="text-muted pe-lg-5">The premier choice for corporate intelligence, private investigation, and cyber forensics globally.</p>
+        </div>
+        <div class="col-lg-2 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Quick Links</h5>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="services.html" class="footer-link">Services</a>
+          <a href="case-studies.html" class="footer-link">Cases</a>
+          <a href="blog.html" class="footer-link">Blog</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Services</h5>
+          <a href="404.html" class="footer-link">Corporate Fraud</a>
+          <a href="404.html" class="footer-link">Cyber Forensics</a>
+          <a href="404.html" class="footer-link">Surveillance</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Secure Contact</h5>
+          <p class="text-muted mb-2"><i class="fas fa-phone-alt text-accent me-2"></i> +91 98765 43210</p>
+          <p class="text-muted mb-4"><i class="fas fa-envelope text-accent me-2"></i> intel@stackly.agency</p>
+        </div>
+      </div>
+      <div class="row border-top mt-5 pt-4" style="border-color: rgba(255,255,255,0.05) !important;">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="text-muted small mb-0">&copy; 2026 Stackly Detective Agency. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="404.html" class="text-muted small me-3">Privacy Policy</a>
+          <a href="404.html" class="text-muted small">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="assets/main.js"></script>
+  <script src="assets/validation.js"></script>
+  <script src="assets/animations.js"></script>
+</body>
+</html>

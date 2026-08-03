@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Stackly Detective & Private Investigation Agency. Premium, confidential, and professional investigation services.">
+  <meta name="keywords" content="Detective, Private Investigator, Cyber Forensics, Missing Person, Corporate Fraud">
+  <title>Stackly | Premium Detective & Investigation Agency</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <a class="navbar-brand" href="index.html">
+          <img src="assets/logo.webp" alt="Stackly Detective Agency Logo" loading="lazy">
+        </a>
+        <div class="hamburger-menu">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="collapse navbar-collapse desktop-nav" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="case-studies.html">Cases</a></li>
+            <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <div class="d-flex gap-3">
+            <a href="login.html" class="btn-outline-gold">Login</a>
+            <a href="signup.html" class="btn-gold">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="mobile-nav-overlay">
+    <div class="mobile-close-btn"><i class="fas fa-times"></i></div>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Cases</a>
+    <a href="blog.html" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="login.html" class="nav-link">Login</a>
+    <a href="signup.html" class="nav-link text-accent">Sign Up</a>
+  </div>
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero-section">
+    <img src="assets/hero_bg.webp" alt="Mysterious city skyline" class="hero-bg" loading="lazy">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative z-1">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="hero-title display-3 fw-bold text-white mb-4">Uncover the Truth.<br><span class="text-accent">Protect What Matters.</span></h1>
+          <p class="hero-subtitle lead text-muted mb-5">Premium intelligence, surveillance, and private investigation services for corporate and private clients. Total confidentiality guaranteed.</p>
+          <div class="hero-btns d-flex gap-3 flex-wrap">
+            <a href="contact.html" class="btn-gold">Request Confidential Consultation</a>
+            <a href="services.html" class="btn-outline-gold">Explore Investigations</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="radar-scan"></div>
+  </section>
+
+  <!-- 2. SEARCH / CONSULTATION -->
+  <section class="section-padding bg-primary-dark border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container" data-aos="fade-up">
+      <div class="bg-card p-4 p-md-5 rounded shadow">
+        <div class="row align-items-center">
+          <div class="col-lg-4 mb-4 mb-lg-0">
+            <h3 class="mb-2">Verify a Subject</h3>
+            <p class="text-muted mb-0">Start a preliminary background check inquiry securely.</p>
+          </div>
+          <div class="col-lg-8">
+            <form class="row g-3 needs-validation" id="searchForm" novalidate>
+              <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Subject Name" required>
+                <div class="error-message">Required field.</div>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" required>
+                  <option value="">Investigation Type</option>
+                  <option>Corporate Fraud</option>
+                  <option>Background Check</option>
+                  <option>Missing Person</option>
+                </select>
+                <div class="error-message">Please select a type.</div>
+              </div>
+              <div class="col-md-4">
+                <button type="submit" class="btn-gold w-100 border-0">Initiate Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ABOUT OUR AGENCY -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+          <img src="assets/investigator_pro.webp" alt="Professional Investigator" class="img-fluid rounded shadow border border-secondary" style="border-color: var(--border-color) !important;" loading="lazy">
+        </div>
+        <div class="col-lg-6 ps-lg-5" data-aos="fade-left">
+          <h2 class="section-title">The Elite Standard in Private Intelligence</h2>
+          <p class="text-muted mt-4">Stackly Detective Agency operates in the shadows to bring truth to the light. With decades of combined experience in law enforcement, military intelligence, and cyber forensics, our operatives deliver unparalleled results.</p>
+
+          <ul class="list-unstyled text-muted mt-4 mb-4">
+            <li class="mb-2"><i class="fas fa-check-circle text-accent me-2"></i> Unprecedented accuracy and meticulous attention to detail.</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-accent me-2"></i> Elite operatives sourced directly from global intelligence agencies.</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-accent me-2"></i> Absolute discretion combined with impenetrable data security protocols.</li>
+          </ul>
+          <p class="text-muted">Every operation we undertake is heavily vetted by our senior tactical command, ensuring that our clients receive completely actionable, court-admissible evidence with zero risk of exposure.</p>
+
+          <ul class="list-unstyled mt-4">
+            <li class="mb-3"><i class="fas fa-check-circle text-accent me-3"></i> Discreet & Confidential Operations</li>
+            <li class="mb-3"><i class="fas fa-check-circle text-accent me-3"></i> State-of-the-art Surveillance Tech</li>
+            <li class="mb-3"><i class="fas fa-check-circle text-accent me-3"></i> Global Intelligence Network</li>
+          </ul>
+          <a href="about.html" class="btn-outline-gold mt-4">Read Our Story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. INVESTIGATION SERVICES -->
+  <section class="section-padding bg-primary-dark border-top border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="section-title">Specialized Services</h2>
+        <p class="text-muted mt-3">Comprehensive solutions for complex scenarios.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-card text-center">
+            <i class="fas fa-user-secret service-icon"></i>
+            <h4>Corporate Investigation</h4>
+            <p class="text-muted mt-3 mb-4">Uncover internal fraud, intellectual property theft, and corporate espionage.</p>
+            <a href="404.html" class="text-accent fw-bold">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-card text-center">
+            <i class="fas fa-desktop service-icon"></i>
+            <h4>Cyber Forensics</h4>
+            <p class="text-muted mt-3 mb-4">Digital footprint tracking, data recovery, and cyber threat neutralization.</p>
+            <a href="404.html" class="text-accent fw-bold">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-card text-center">
+            <i class="fas fa-search-location service-icon"></i>
+            <h4>Surveillance</h4>
+            <p class="text-muted mt-3 mb-4">Advanced physical and digital monitoring with timestamped evidence.</p>
+            <a href="404.html" class="text-accent fw-bold">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5" data-aos="fade-up">
+        <a href="services.html" class="btn-gold">View All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WHY CHOOSE US -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6" data-aos="fade-up">
+          <h2 class="section-title">Why Trust Stackly?</h2>
+          <p class="text-muted mt-4 mb-5">In our line of work, failure is not an option. We employ military-grade precision in every case.</p>
+          
+          <div class="d-flex mb-4">
+            <div class="me-4"><i class="fas fa-shield-alt fa-3x text-accent"></i></div>
+            <div>
+              <h5>Absolute Discretion</h5>
+              <p class="text-muted">Your identity and investigation details are protected by ironclad NDAs and encrypted servers.</p>
+            </div>
+          </div>
+          <div class="d-flex mb-4">
+            <div class="me-4"><i class="fas fa-gavel fa-3x text-accent"></i></div>
+            <div>
+              <h5>Court-Admissible Evidence</h5>
+              <p class="text-muted">All evidence is gathered legally, maintaining a strict chain of custody for legal proceedings.</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+          <img src="assets/corporate_fraud.webp" alt="Corporate Investigation" class="img-fluid rounded shadow border border-secondary" style="border-color: var(--border-color) !important;" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. INVESTIGATION PROCESS -->
+  <section class="section-padding bg-primary-dark border-top border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="section-title">Our Methodology</h2>
+      </div>
+      <div class="row position-relative">
+        <!-- Connecting Line (hidden on mobile) -->
+        <div class="d-none d-lg-block position-absolute" style="top: 50px; left: 10%; width: 80%; height: 2px; background: var(--border-color); z-index: 0;"></div>
+        
+        <div class="col-lg-3 col-md-6 text-center mb-4 z-1" data-aos="fade-up" data-aos-delay="100">
+          <div class="bg-card rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px; border: 2px solid var(--accent-color);">
+            <i class="fas fa-comments fa-2x text-accent"></i>
+          </div>
+          <h5>1. Consultation</h5>
+          <p class="text-muted small">Secure briefing to understand parameters.</p>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center mb-4 z-1" data-aos="fade-up" data-aos-delay="200">
+          <div class="bg-card rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px; border: 2px solid var(--accent-color);">
+            <i class="fas fa-search fa-2x text-accent"></i>
+          </div>
+          <h5>2. Intelligence Gathering</h5>
+          <p class="text-muted small">Deploying operatives and tech.</p>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center mb-4 z-1" data-aos="fade-up" data-aos-delay="300">
+          <div class="bg-card rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px; border: 2px solid var(--accent-color);">
+            <i class="fas fa-fingerprint fa-2x text-accent"></i>
+          </div>
+          <h5>3. Analysis</h5>
+          <p class="text-muted small">Connecting dots and verifying facts.</p>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center mb-4 z-1" data-aos="fade-up" data-aos-delay="400">
+          <div class="bg-card rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px; border: 2px solid var(--accent-color);">
+            <i class="fas fa-file-contract fa-2x text-accent"></i>
+          </div>
+          <h5>4. Final Report</h5>
+          <p class="text-muted small">Delivering undeniable evidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. ADVANCED TECH -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-2 mb-5 mb-lg-0" data-aos="fade-left">
+          <h2 class="section-title">Next-Gen Surveillance</h2>
+          <p class="text-muted mt-4">We employ the same technology used by top-tier government intelligence agencies. From encrypted communications interceptors to thermal drones.</p>
+
+          <ul class="list-unstyled text-muted mt-4 mb-4">
+            <li class="mb-2"><i class="fas fa-check-circle text-accent me-2"></i> Unprecedented accuracy and meticulous attention to detail.</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-accent me-2"></i> Elite operatives sourced directly from global intelligence agencies.</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-accent me-2"></i> Absolute discretion combined with impenetrable data security protocols.</li>
+          </ul>
+          <p class="text-muted">Every operation we undertake is heavily vetted by our senior tactical command, ensuring that our clients receive completely actionable, court-admissible evidence with zero risk of exposure.</p>
+
+          <a href="services.html" class="btn-outline-gold mt-4">Explore Our Tech</a>
+        </div>
+        <div class="col-lg-6 order-lg-1" data-aos="fade-right">
+          <img src="assets/surveillance_tech.webp" alt="Surveillance Tech" class="img-fluid rounded shadow border border-secondary" style="border-color: var(--border-color) !important;" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CASE STATISTICS -->
+  <section class="section-padding bg-card border-top border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <div class="row g-4">
+        <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
+          <h2 class="display-4 text-accent fw-bold"><span class="counter-val" data-target="2500">0</span>+</h2>
+          <p class="text-uppercase text-muted letter-spacing-1">Cases Closed</p>
+        </div>
+        <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
+          <h2 class="display-4 text-accent fw-bold"><span class="counter-val" data-target="98">0</span>%</h2>
+          <p class="text-uppercase text-muted letter-spacing-1">Success Rate</p>
+        </div>
+        <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
+          <h2 class="display-4 text-accent fw-bold"><span class="counter-val" data-target="45">0</span></h2>
+          <p class="text-uppercase text-muted letter-spacing-1">Elite Operatives</p>
+        </div>
+        <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="400">
+          <h2 class="display-4 text-accent fw-bold"><span class="counter-val" data-target="15">0</span></h2>
+          <p class="text-uppercase text-muted letter-spacing-1">Years Experience</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FEATURED CASE STUDIES -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
+        <div>
+          <h2 class="section-title mb-0">Declassified Cases</h2>
+        </div>
+        <a href="case-studies.html" class="btn-outline-gold d-none d-md-inline-block">View All Cases</a>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6" data-aos="fade-up">
+          <div class="case-card">
+            <img src="assets/cyber_forensics.webp" alt="Cyber Case" class="img-fluid rounded mb-3" loading="lazy">
+            <span class="badge bg-dark border border-secondary text-accent mb-2">Operation Phantom</span>
+            <h4>Corporate Data Breach</h4>
+            <p class="text-muted">Traced a multi-million dollar intellectual property theft to a rogue executive using advanced digital forensics.</p>
+            <a href="case-studies.html" class="text-white">Read Case File <i class="fas fa-lock-open ms-2 text-accent"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="case-card">
+            <img src="assets/missing_person.webp" alt="Missing Person Case" class="img-fluid rounded mb-3" loading="lazy">
+            <span class="badge bg-dark border border-secondary text-accent mb-2">Operation Echo</span>
+            <h4>Missing Heir Located</h4>
+            <p class="text-muted">Located a missing heir across international borders utilizing open-source intelligence and field operatives.</p>
+            <a href="case-studies.html" class="text-white">Read Case File <i class="fas fa-lock-open ms-2 text-accent"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. CLIENT TESTIMONIALS -->
+  <section class="section-padding bg-primary-dark border-top border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <i class="fas fa-quote-left fa-3x text-accent mb-4" data-aos="fade-up"></i>
+      <h3 class="fw-normal lh-base w-75 mx-auto mb-4" data-aos="fade-up" data-aos-delay="100">"Stackly Agency delivered results when law enforcement hit a dead end. Their discretion and professionalism are unmatched in the industry."</h3>
+      <div data-aos="fade-up" data-aos-delay="200">
+        <p class="fw-bold mb-0 text-white">CEO, Fortune 500 Corporation</p>
+        <p class="text-muted small">Identity hidden for confidentiality</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. INVESTIGATOR EXPERTISE -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5" data-aos="fade-right">
+          <h2 class="section-title">The Operatives</h2>
+          <p class="text-muted mt-4">We recruit exclusively from elite military, intelligence, and federal law enforcement backgrounds.</p>
+          <a href="about.html" class="btn-gold mt-3">Meet The Team</a>
+        </div>
+        <div class="col-lg-7" data-aos="fade-left">
+          <div class="row g-3 mt-4 mt-lg-0">
+            <div class="col-sm-6">
+              <div class="bg-card p-3 border rounded text-center" style="border-color: var(--border-color) !important;">
+                <i class="fas fa-user-tie fa-2x text-accent mb-2"></i>
+                <h6 class="text-white">Ex-Federal Agents</h6>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="bg-card p-3 border rounded text-center" style="border-color: var(--border-color) !important;">
+                <i class="fas fa-laptop-code fa-2x text-accent mb-2"></i>
+                <h6 class="text-white">Cyber Experts</h6>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="bg-card p-3 border rounded text-center" style="border-color: var(--border-color) !important;">
+                <i class="fas fa-camera fa-2x text-accent mb-2"></i>
+                <h6 class="text-white">Surveillance Specialists</h6>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="bg-card p-3 border rounded text-center" style="border-color: var(--border-color) !important;">
+                <i class="fas fa-balance-scale fa-2x text-accent mb-2"></i>
+                <h6 class="text-white">Legal Analysts</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. CONFIDENTIALITY & SECURITY -->
+  <section class="section-padding bg-card border-top border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <i class="fas fa-lock fa-3x text-accent mb-4" data-aos="zoom-in"></i>
+      <h2 class="section-title">Absolute Secrecy</h2>
+      <p class="text-muted mt-3 mx-auto" style="max-width: 600px;">Every communication, file, and physical meeting is protected by military-grade protocols. We never disclose client lists or case specifics.</p>
+      <a href="contact.html" class="btn-outline-gold mt-4">Read Security Policy</a>
+    </div>
+  </section>
+
+  <!-- 13. FAQ -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="section-title">Frequent Inquiries</h2>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8" data-aos="fade-up">
+          <div class="accordion" id="faqAccordion">
+            <div class="bg-card border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
+              <h5 class="text-white mb-2">Is the investigation legal?</h5>
+              <p class="text-muted mb-0 small">Yes. All operations strictly adhere to local and international laws to ensure evidence is court-admissible.</p>
+            </div>
+            <div class="bg-card border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
+              <h5 class="text-white mb-2">Will the subject know they are being investigated?</h5>
+              <p class="text-muted mb-0 small">No. Our operatives are trained in covert surveillance. Detection risk is near zero.</p>
+            </div>
+            <div class="bg-card border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
+              <h5 class="text-white mb-2">How much does an investigation cost?</h5>
+              <p class="text-muted mb-0 small">Costs vary based on complexity, resources, and duration. We provide transparent estimates after the initial consultation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. CONTACT CTA -->
+  <section class="section-padding bg-primary-dark border-top border-bottom position-relative" style="border-color: var(--border-color) !important;">
+    <div class="container text-center position-relative z-1">
+      <h2 class="display-5 fw-bold text-white mb-4" data-aos="fade-up">Ready to find the truth?</h2>
+      <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">Contact us via our secure channel to initiate a preliminary case evaluation.</p>
+      <a href="contact.html" class="btn-gold btn-lg mx-2 mb-3" data-aos="fade-up" data-aos-delay="200">Start Investigation</a>
+      <a href="login.html" class="btn-outline-gold btn-lg mx-2 mb-3" data-aos="fade-up" data-aos-delay="300">Client Portal Login</a>
+    </div>
+  </section>
+
+  
+  <!-- 15. TESTIMONIALS SECTION -->
+  <section class="section-padding border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="section-title">Client Testimonials</h2>
+        <p class="text-muted">Discreet feedback from verified high-profile clients.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+          <div class="card bg-card border-secondary h-100 p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img src="assets/avatar_1.webp" alt="Client" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover; border: 2px solid var(--accent-color);">
+              <div>
+                <h5 class="text-white mb-0">Executive Board Member</h5>
+                <small class="text-accent"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></small>
+              </div>
+            </div>
+            <p class="text-muted fst-italic">"Stackly's forensic accounting team uncovered a $2M embezzlement scheme that our internal auditors completely missed. Their discretion was absolute."</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="card bg-card border-secondary h-100 p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img src="assets/avatar_2.webp" alt="Client" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover; border: 2px solid var(--accent-color);">
+              <div>
+                <h5 class="text-white mb-0">High-Net-Worth Client</h5>
+                <small class="text-accent"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></small>
+              </div>
+            </div>
+            <p class="text-muted fst-italic">"When my family faced a severe digital harassment threat, their cyber division neutralized it within 48 hours and provided irrefutable evidence for litigation."</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="card bg-card border-secondary h-100 p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img src="assets/avatar_3.webp" alt="Client" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover; border: 2px solid var(--accent-color);">
+              <div>
+                <h5 class="text-white mb-0">Defense Attorney</h5>
+                <small class="text-accent"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></small>
+              </div>
+            </div>
+            <p class="text-muted fst-italic">"The surveillance footage and timestamped logs provided by their field operatives were bulletproof in court. I exclusively contract Stackly for complex cases."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. NEWSLETTER -->
+  <section class="py-5 bg-card">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+          <h4 class="text-white mb-1"><i class="fas fa-envelope-open-text text-accent me-2"></i> Security Briefing</h4>
+          <p class="text-muted mb-0 small">Subscribe to our monthly threat analysis and security tips.</p>
+        </div>
+        <div class="col-lg-6">
+          <form class="d-flex needs-validation" novalidate id="newsletterForm">
+            <input type="email" class="form-control me-2" placeholder="Secure Email Address" required>
+            <button type="submit" class="btn-gold border-0">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. FOOTER -->
+      <footer class="site-footer border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-12 footer-widget mb-5 mb-lg-0">
+          <img src="assets/logo.webp" alt="Stackly Logo" class="mb-4" style="height: 50px;">
+          <p class="text-muted pe-lg-5">The premier choice for corporate intelligence, private investigation, and cyber forensics globally.</p>
+        </div>
+        <div class="col-lg-2 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Quick Links</h5>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="services.html" class="footer-link">Services</a>
+          <a href="case-studies.html" class="footer-link">Cases</a>
+          <a href="blog.html" class="footer-link">Blog</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Services</h5>
+          <a href="404.html" class="footer-link">Corporate Fraud</a>
+          <a href="404.html" class="footer-link">Cyber Forensics</a>
+          <a href="404.html" class="footer-link">Surveillance</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Secure Contact</h5>
+          <p class="text-muted mb-2"><i class="fas fa-phone-alt text-accent me-2"></i> +91 98765 43210</p>
+          <p class="text-muted mb-4"><i class="fas fa-envelope text-accent me-2"></i> intel@stackly.agency</p>
+        </div>
+      </div>
+      <div class="row border-top mt-5 pt-4" style="border-color: rgba(255,255,255,0.05) !important;">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="text-muted small mb-0">&copy; 2026 Stackly Detective Agency. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="404.html" class="text-muted small me-3">Privacy Policy</a>
+          <a href="404.html" class="text-muted small">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <script src="assets/main.js"></script>
+  <script src="assets/validation.js"></script>
+  <script src="assets/animations.js"></script>
+</body>
+</html>
