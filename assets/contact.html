@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Stackly</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/responsive.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <a class="navbar-brand" href="index.html"><img src="assets/logo.webp" alt="Stackly Logo"></a>
+        <div class="hamburger-menu"><i class="fas fa-bars"></i></div>
+        <div class="collapse navbar-collapse desktop-nav" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="case-studies.html">Cases</a></li>
+            <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link text-accent" href="contact.html">Contact</a></li>
+          </ul>
+          <div class="d-flex gap-3">
+            <a href="login.html" class="btn-outline-gold">Login</a>
+            <a href="signup.html" class="btn-gold">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="mobile-nav-overlay">
+    <div class="mobile-close-btn"><i class="fas fa-times"></i></div>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Cases</a>
+    <a href="blog.html" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link text-accent">Contact</a>
+    <a href="login.html" class="nav-link">Login</a>
+    <a href="signup.html" class="nav-link">Sign Up</a>
+  </div>
+
+  <!-- 1. HERO -->
+  <section class="breadcrumb-section text-center">
+    <div class="container" data-aos="fade-up">
+      <h1 class="display-4 text-white fw-bold">Secure Contact</h1>
+      <!-- 2. BREADCRUMB -->
+      <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb justify-content-center">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 3. CONTACT INFORMATION -->
+  <section class="section-padding border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container">
+      <div class="row text-center g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="bg-card p-4 rounded border h-100" style="border-color: var(--border-color) !important;">
+            <i class="fas fa-phone-alt fa-2x text-accent mb-3"></i>
+            <h5 class="text-white">Secure Line</h5>
+            <p class="text-muted">+91 98765 43210</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="bg-card p-4 rounded border h-100" style="border-color: var(--border-color) !important;">
+            <i class="fas fa-envelope fa-2x text-accent mb-3"></i>
+            <h5 class="text-white">Encrypted Email</h5>
+            <p class="text-muted">intel@stackly.agency</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="bg-card p-4 rounded border h-100" style="border-color: var(--border-color) !important;">
+            <i class="fas fa-map-marker-alt fa-2x text-accent mb-3"></i>
+            <h5 class="text-white">Headquarters</h5>
+            <p class="text-muted">Stackly Agency, Tamil Nadu, India</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CONFIDENTIAL CONSULTATION & 5. CONTACT FORM -->
+  <section class="section-padding bg-primary-dark border-bottom" style="border-color: var(--border-color) !important;">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
+          <h2 class="section-title">Confidential Consultation</h2>
+          <p class="text-muted mt-4">Initiate a secure dialogue with our senior operatives. All information submitted is protected by client-agency privilege and 256-bit encryption.</p>
+          <div class="mt-4 p-4 border rounded" style="border-color: var(--border-color) !important; background: rgba(212,175,55,0.05);">
+             <h6 class="text-accent"><i class="fas fa-lock me-2"></i> PGP Key Available</h6>
+             <p class="text-muted small mb-0">For highly sensitive materials, request our public PGP key before sending.</p>
+          </div>
+        </div>
+        <div class="col-lg-7" data-aos="fade-left">
+          <form id="contactForm" class="bg-card p-4 p-md-5 rounded shadow needs-validation" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" required>
+                <div class="error-message">Name is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" required>
+                <div class="error-message">Valid email is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" required pattern="\\+?\\d{7,15}">
+                <div class="error-message">Valid phone is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Investigation Type</label>
+                <select class="form-control" required>
+                  <option value="">Select Type</option>
+                  <option>Corporate</option>
+                  <option>Cyber</option>
+                  <option>Surveillance</option>
+                  <option>Missing Person</option>
+                  <option>Other</option>
+                </select>
+                <div class="error-message">Please select a type.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Preferred Contact Method</label>
+                <select class="form-control" required>
+                  <option value="">Select Method</option>
+                  <option>Email</option>
+                  <option>Phone</option>
+                  <option>Encrypted App (Signal/Telegram)</option>
+                </select>
+                <div class="error-message">Please select a method.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message Details (Keep it brief)</label>
+                <textarea class="form-control" rows="4" required></textarea>
+                <div class="error-message">Message is required.</div>
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn-gold w-100 border-0">Send Secure Message</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. OFFICE LOCATION & 7. BUSINESS HOURS -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6" data-aos="fade-up">
+          <h3 class="mb-4">Office Location</h3>
+          <div class="bg-card rounded border overflow-hidden" style="height: 300px; border-color: var(--border-color) !important;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15764049.914210081!2d70.99912061093156!3d15.502011048682041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8ab6f19974241%3A0xc39f28ecce05fb86!2sTamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+        <div class="col-lg-6 mt-5 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="mb-4">Business Hours</h3>
+          <ul class="list-group list-group-flush bg-transparent">
+            <li class="list-group-item bg-transparent text-white border-secondary d-flex justify-content-between">
+              <span>Monday - Friday</span> <span>09:00 - 18:00 EST</span>
+            </li>
+            <li class="list-group-item bg-transparent text-white border-secondary d-flex justify-content-between">
+              <span>Saturday</span> <span>10:00 - 15:00 EST</span>
+            </li>
+            <li class="list-group-item bg-transparent text-white border-secondary d-flex justify-content-between">
+              <span>Sunday</span> <span>Closed (Emergency Only)</span>
+            </li>
+            <li class="list-group-item bg-transparent text-accent border-secondary d-flex justify-content-between">
+              <span>Active Field Ops</span> <span>24/7/365</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. EMERGENCY INVESTIGATION REQUEST -->
+  <section class="section-padding bg-card border-top border-bottom" style="border-color: var(--error-color) !important;">
+    <div class="container text-center">
+      <i class="fas fa-exclamation-triangle fa-3x text-danger mb-4"></i>
+      <h3 class="text-white">Emergency Investigation Request</h3>
+      <p class="text-muted mx-auto mb-4" style="max-width: 600px;">If this is a time-sensitive emergency (e.g., active cyber attack, kidnapping, immediate surveillance need), call our 24/7 emergency hotline.</p>
+      <a href="tel:+919876543210" class="btn btn-danger px-4 py-2 fw-bold border-0">Call +91 98765 43210</a>
+    </div>
+  </section>
+
+  <!-- 9. CUSTOMER SUPPORT & 10. FAQ & 11. CONFIDENTIALITY NOTICE -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="row g-4 text-center">
+        <div class="col-lg-4">
+          <div class="p-4 border rounded h-100 bg-primary-dark" style="border-color: var(--border-color) !important;">
+            <i class="fas fa-headset fa-2x text-accent mb-3"></i>
+            <h5>Existing Client Support</h5>
+            <p class="text-muted small">Please login to your dashboard to message your assigned investigator directly.</p>
+            <a href="login.html" class="text-accent text-decoration-none">Go to Portal</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="p-4 border rounded h-100 bg-primary-dark" style="border-color: var(--border-color) !important;">
+            <i class="fas fa-question-circle fa-2x text-accent mb-3"></i>
+            <h5>Response Time</h5>
+            <p class="text-muted small">Standard inquiries receive a response within 4 hours. Emergency inquiries are immediate.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="p-4 border rounded h-100 bg-primary-dark" style="border-color: var(--border-color) !important;">
+            <i class="fas fa-user-secret fa-2x text-accent mb-3"></i>
+            <h5>Confidentiality Notice</h5>
+            <p class="text-muted small">Your IP and metadata are NOT logged when submitting our contact form.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. NEWSLETTER & 13. CTA -->
+  <section class="py-5 bg-card border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <h4 class="text-white mb-3">Security Briefing</h4>
+      <form class="d-flex flex-column flex-sm-row mx-auto w-100 gap-2 needs-validation" style="max-width: 400px;" id="newsletterForm" novalidate>
+        <input type="email" class="form-control flex-grow-1" placeholder="Secure Email" required>
+        <button type="submit" class="btn-gold border-0">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- TRUST BADGES SECTION (10th Section) -->
+  <section class="py-4 bg-primary-dark border-top" style="border-color: var(--border-color) !important;">
+    <div class="container text-center">
+      <div class="d-flex justify-content-center gap-4 flex-wrap opacity-50">
+        <i class="fas fa-shield-alt fa-2x text-muted"></i>
+        <i class="fas fa-certificate fa-2x text-muted"></i>
+        <i class="fas fa-user-secret fa-2x text-muted"></i>
+        <i class="fas fa-lock fa-2x text-muted"></i>
+      </div>
+    </div>
+  </section>
+
+      <footer class="site-footer border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-12 footer-widget mb-5 mb-lg-0">
+          <img src="assets/logo.webp" alt="Stackly Logo" class="mb-4" style="height: 50px;">
+          <p class="text-muted pe-lg-5">The premier choice for corporate intelligence, private investigation, and cyber forensics globally.</p>
+        </div>
+        <div class="col-lg-2 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Quick Links</h5>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="services.html" class="footer-link">Services</a>
+          <a href="case-studies.html" class="footer-link">Cases</a>
+          <a href="blog.html" class="footer-link">Blog</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Services</h5>
+          <a href="404.html" class="footer-link">Corporate Fraud</a>
+          <a href="404.html" class="footer-link">Cyber Forensics</a>
+          <a href="404.html" class="footer-link">Surveillance</a>
+        </div>
+        <div class="col-lg-3 col-md-4 footer-widget mb-4 mb-lg-0">
+          <h5 class="text-white mb-4">Secure Contact</h5>
+          <p class="text-muted mb-2"><i class="fas fa-phone-alt text-accent me-2"></i> +91 98765 43210</p>
+          <p class="text-muted mb-4"><i class="fas fa-envelope text-accent me-2"></i> intel@stackly.agency</p>
+        </div>
+      </div>
+      <div class="row border-top mt-5 pt-4" style="border-color: rgba(255,255,255,0.05) !important;">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="text-muted small mb-0">&copy; 2026 Stackly Detective Agency. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="404.html" class="text-muted small me-3">Privacy Policy</a>
+          <a href="404.html" class="text-muted small">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="assets/main.js"></script>
+  <script src="assets/validation.js"></script>
+  <script src="assets/animations.js"></script>
+</body>
+</html>

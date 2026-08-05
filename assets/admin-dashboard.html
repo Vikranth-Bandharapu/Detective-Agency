@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - Stackly Detective Agency</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        gold: { DEFAULT: '#D4AF37' }, 
+                        black: { DEFAULT: '#0A0A0A', light: '#1A1A1A' },
+                        accent: { DEFAULT: '#4A7AF2' }
+                    },
+                    fontFamily: { serif: ['Cinzel', 'serif'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dashboard-tab { display: none; }
+        .dashboard-tab.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        /* Prevent layout breaking */
+        .glass-panel { background: rgba(26, 26, 26, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="bg-black text-white font-sans h-[100dvh] flex overflow-hidden">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="mobile-sidebar-overlay" onclick="toggleDashboardSidebar()" class="fixed inset-0 bg-black/80 z-40 hidden md:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <aside id="dashboard-sidebar" class="w-64 bg-black-light border-r border-white/10 flex flex-col hidden md:flex z-20">
+        <div class="h-24 flex items-center px-6 border-b border-white/10">
+            <button id="close-sidebar-btn" onclick="toggleDashboardSidebar()" class="md:hidden absolute top-8 right-6 text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+            <a href="404.html" class="flex items-center">
+                <img src="assets/logo.webp" alt="Stackly Logo" class="h-10" onerror="this.src='https://placehold.co/150x50/0A0A0A/D4AF37.webp?text=Stackly'">
+            </a>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <a href="#" onclick="switchTab(event, 'panel-dashboard', this)" class="flex items-center px-4 py-3 text-sm tracking-widest uppercase bg-gold/10 text-gold rounded-sm border-l-2 border-gold"><i class="fas fa-home w-6"></i> Dashboard</a>
+            <a href="#" onclick="switchTab(event, 'panel-cases', this)" class="flex items-center px-4 py-3 text-sm tracking-widest uppercase text-gray-400 hover:text-white transition-colors border-l-2 border-transparent"><i class="fas fa-briefcase w-6"></i> Cases</a>
+            <a href="#" onclick="switchTab(event, 'panel-intel', this)" class="flex items-center px-4 py-3 text-sm tracking-widest uppercase text-gray-400 hover:text-white transition-colors border-l-2 border-transparent"><i class="fas fa-satellite-dish w-6"></i> Intel</a>
+            <a href="#" onclick="switchTab(event, 'panel-operatives', this)" class="flex items-center px-4 py-3 text-sm tracking-widest uppercase text-gray-400 hover:text-white transition-colors border-l-2 border-transparent"><i class="fas fa-user-secret w-6"></i> Operatives</a>
+            <a href="#" onclick="switchTab(event, 'panel-settings', this)" class="flex items-center px-4 py-3 text-sm tracking-widest uppercase text-gray-400 hover:text-white transition-colors border-l-2 border-transparent"><i class="fas fa-cog w-6"></i> Settings</a>
+        </nav>
+        <div class="p-6 border-t border-white/10 space-y-4">
+            <a href="login.html" class="flex items-center text-sm tracking-widest uppercase text-gray-400 hover:text-red-500 transition-colors"><i class="fas fa-sign-out-alt w-6"></i> Disconnect</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative z-10">
+        <!-- Topbar -->
+        <header class="h-24 bg-black border-b border-white/10 flex items-center justify-between px-8 z-20">
+            <div class="flex items-center">
+                <button onclick="toggleDashboardSidebar()" class="md:hidden text-gray-400 hover:text-white mr-4"><i class="fas fa-bars text-xl"></i></button>
+                <h2 class="font-serif hidden md:block text-2xl text-white">Director Portal</h2>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative group cursor-pointer">
+                    <i class="fas fa-bell text-gray-400 hover:text-gold transition-colors text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <div class="text-sm text-white font-serif tracking-widest auth-user-name">Director Blackwood</div>
+                        <div class="text-[10px] text-gold uppercase tracking-widest">Level 10 Clearance (Omni)</div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full border border-gold/50 flex items-center justify-center bg-black-light text-gold">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="absolute top-24 left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden p-4 md:p-8 bg-black">
+            
+            <!-- Panel: Dashboard -->
+            <div class="dashboard-tab active" id="panel-dashboard">
+
+                <!-- 1. Profile Card -->
+                <div class="bg-black-light border border-white/5 rounded-xl p-6 mb-8 flex items-center gap-6 w-full md:w-max max-w-full shadow-lg">
+                    <div class="w-16 h-16 rounded-full bg-gold/20 border border-gold flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user-secret text-3xl text-gold"></i>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <h4 class="text-white text-xl md:text-2xl font-bold flex flex-wrap items-baseline gap-2 min-w-0">
+                            <span class="auth-user-name font-serif break-all">Director Omega</span>
+                            <span class="text-gray-400 text-sm md:text-base font-light auth-user-email break-all">cmd@stackly.agency</span>
+                        </h4>
+                        <span class="text-gold text-sm mt-1 display-user-role tracking-widest uppercase truncate block w-full">Global Command Center</span>
+                    </div>
+                </div>
+
+                <!-- 2. Executive Overview Header -->
+                <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
+                    <div>
+                        <h3 class="font-serif text-3xl mb-2 text-white">Executive Overview</h3>
+                        <p class="text-sm text-gray-400">High-level metrics and system status.</p>
+                    </div>
+                    <select class="bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white">
+                        <option>Last 30 Days</option>
+                        <option>This Quarter</option>
+                        <option>Year to Date</option>
+                    </select>
+                </div>
+
+                <!-- 3. Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-black-light p-6 border border-white/5 relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-gold opacity-10 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-briefcase"></i></div>
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Active Cases</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">142</h3>
+                        <span class="text-xs text-green-400">+12% vs last month</span>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5 relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-gold opacity-10 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-user-secret"></i></div>
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Field Operatives</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">89</h3>
+                        <span class="text-xs text-green-400">14 Deployed</span>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5 relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-gold opacity-10 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-satellite-dish"></i></div>
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Intel Intercepts</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">4,192</h3>
+                        <span class="text-xs text-red-400">+340 Unverified</span>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5 relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-gold opacity-10 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-shield-alt"></i></div>
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Mission Success</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">98.4%</h3>
+                        <span class="text-xs text-green-400">Above Target</span>
+                    </div>
+                </div>
+
+                <!-- 4 & 5. Chart & Top Categories Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                    
+                    <!-- 4. Main Chart Area -->
+                    <div class="lg:col-span-2 bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-6 text-white">Operation Velocity</h4>
+                        <div class="h-64 flex items-end justify-between gap-2 border-b border-l border-white/10 px-2 pb-2">
+                            <div class="w-full bg-white/10 hover:bg-gold transition-colors relative group cursor-pointer" style="height: 40%">
+                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity text-white">40 Ops</div>
+                            </div>
+                            <div class="w-full bg-white/10 hover:bg-gold transition-colors relative group cursor-pointer" style="height: 60%">
+                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity text-white">60 Ops</div>
+                            </div>
+                            <div class="w-full bg-gold transition-colors relative group cursor-pointer" style="height: 90%">
+                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity text-white">90 Ops</div>
+                            </div>
+                            <div class="w-full bg-white/10 hover:bg-gold transition-colors relative group cursor-pointer" style="height: 50%">
+                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity text-white">50 Ops</div>
+                            </div>
+                            <div class="w-full bg-white/10 hover:bg-gold transition-colors relative group cursor-pointer" style="height: 70%">
+                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black border border-white/20 text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity text-white">70 Ops</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-4 px-2 uppercase tracking-widest">
+                            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
+                        </div>
+                    </div>
+
+                    <!-- 5. Top Categories -->
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-6 text-white">Case Categories</h4>
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-white">Corporate Fraud</span>
+                                    <span class="text-gold">45%</span>
+                                </div>
+                                <div class="w-full h-1 bg-white/10">
+                                    <div class="h-full bg-gold" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-white">Matrimonial</span>
+                                    <span class="text-gold">25%</span>
+                                </div>
+                                <div class="w-full h-1 bg-white/10">
+                                    <div class="h-full bg-gold" style="width: 25%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-white">Missing Person</span>
+                                    <span class="text-gold">15%</span>
+                                </div>
+                                <div class="w-full h-1 bg-white/10">
+                                    <div class="h-full bg-gold" style="width: 15%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-white">Cyber Forensics</span>
+                                    <span class="text-gold">10%</span>
+                                </div>
+                                <div class="w-full h-1 bg-white/10">
+                                    <div class="h-full bg-gold" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-white">Surveillance</span>
+                                    <span class="text-gold">5%</span>
+                                </div>
+                                <div class="w-full h-1 bg-white/10">
+                                    <div class="h-full bg-gold" style="width: 5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. System Alerts / Logs Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-serif text-2xl text-white">System Alerts</h3>
+                    <button onclick="window.location.href='404.html'" class="text-xs text-gold uppercase tracking-widest hover:text-white transition-colors">View All</button>
+                </div>
+                
+                <!-- 7. System Alerts List -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 shrink-0"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Critical Comms Breach <span class="text-gold">(Sector 7)</span></p>
+                                    <span class="text-gray-500 text-xs">10 min ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Encrypted channel intercepted. Rerouting traffic.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0"><i class="fas fa-satellite"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Satellite Repositioning Complete</p>
+                                    <span class="text-gray-500 text-xs">2 hrs ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Orbital asset realigned for Operation Blackout.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0"><i class="fas fa-check-circle"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Database Backup Secured</p>
+                                    <span class="text-gray-500 text-xs">5 hrs ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Case files synced to cold storage vault.</p>
+                            </div>
+                        </li>
+                    
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500 shrink-0"><i class="fas fa-lock"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Firewall Brute Force Attempt</p>
+                                    <span class="text-gray-500 text-xs">6 hrs ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Origin: Proxy Node 44 (Blocked automatically)</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0"><i class="fas fa-user-secret"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Asset Deployment Verified</p>
+                                    <span class="text-gray-500 text-xs">8 hrs ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Operative Ghost reached Safehouse Charlie.</p>
+                            </div>
+                        </li></ul>
+                </div>
+
+                <!-- 8. Logistics Map Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Global Asset Deployment</h3>
+                    <p class="text-gray-400 mb-8">Live tracking of operatives and surveillance targets across regions.</p>
+                </div>
+
+                <!-- 9. Global Logistics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-black border border-white/5 p-6 shadow-lg relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-white/5 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-globe-europe"></i></div>
+                        <h4 class="text-white font-serif text-xl mb-2 relative z-10">EMEA Region</h4>
+                        <div class="flex justify-between text-xs text-gray-400 mb-4 relative z-10">
+                            <span>45 Active Ops</span>
+                            <span class="text-green-400">Stable</span>
+                        </div>
+                        <div class="w-full bg-white/10 h-1 mb-2 relative z-10"><div class="bg-green-400 h-1" style="width: 100%"></div></div>
+                    </div>
+                    <div class="bg-black border border-white/5 p-6 shadow-lg relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-white/5 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-globe-americas"></i></div>
+                        <h4 class="text-white font-serif text-xl mb-2 relative z-10">Americas Region</h4>
+                        <div class="flex justify-between text-xs text-gray-400 mb-4 relative z-10">
+                            <span>82 Active Ops</span>
+                            <span class="text-yellow-500">Elevated (2 Alerts)</span>
+                        </div>
+                        <div class="w-full bg-white/10 h-1 mb-2 relative z-10"><div class="bg-yellow-500 h-1" style="width: 85%"></div></div>
+                    </div>
+                    <div class="bg-black border border-white/5 p-6 shadow-lg relative overflow-hidden group border-t-2 border-t-red-500">
+                        <div class="absolute right-0 top-0 text-white/5 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-globe-asia"></i></div>
+                        <h4 class="text-white font-serif text-xl mb-2 relative z-10">APAC Region</h4>
+                        <div class="flex justify-between text-xs text-gray-400 mb-4 relative z-10">
+                            <span>12 Active Ops</span>
+                            <span class="text-red-500">Critical (Agent MIA)</span>
+                        </div>
+                        <div class="w-full bg-white/10 h-1 mb-2 relative z-10"><div class="bg-red-500 h-1" style="width: 60%"></div></div>
+                    </div>
+                </div>
+
+                <!-- 10. Fraud / Threat Queue (Identical styling to Jewellery Fraud) -->
+                <div class="mb-12 mt-12">
+                    <h3 class="font-serif text-3xl mb-6 text-white">Threat Detection Queue</h3>
+                    <p class="text-gray-400 mb-8">Anomalies flagged by internal systems requiring manual verification.</p>
+                    <div class="bg-black border border-red-500/30 p-6 shadow-lg">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-gray-400">
+                                <thead class="text-xs uppercase tracking-widest text-gray-500 border-b border-white/10">
+                                    <tr>
+                                        <th class="pb-4 font-normal">Threat ID</th>
+                                        <th class="pb-4 font-normal">System / Source</th>
+                                        <th class="pb-4 font-normal">Risk Level</th>
+                                        <th class="pb-4 font-normal text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-white/5">
+                                    <tr>
+                                        <td class="py-4 text-white font-medium">#TGT-092</td>
+                                        <td class="py-4">Dark Web Scraper</td>
+                                        <td class="py-4"><span class="text-red-500">Critical</span></td>
+                                        <td class="py-4 text-right">
+                                            <button onclick="window.location.href='404.html'" class="bg-red-500/20 text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-4 py-1 rounded text-xs transition-colors">Review</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 text-white font-medium">#TGT-091</td>
+                                        <td class="py-4">Database Log Auth</td>
+                                        <td class="py-4"><span class="text-yellow-500">Elevated</span></td>
+                                        <td class="py-4 text-right">
+                                            <button onclick="window.location.href='404.html'" class="bg-red-500/20 text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-4 py-1 rounded text-xs transition-colors">Review</button>
+                                        </td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td class="py-4 text-white font-medium">#TGT-089</td>
+                                        <td class="py-4">Wiretap Filter</td>
+                                        <td class="py-4"><span class="text-red-500">Critical</span></td>
+                                        <td class="py-4 text-right">
+                                            <button onclick="window.location.href='404.html'" class="bg-red-500/20 text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-4 py-1 rounded text-xs transition-colors">Review</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 text-white font-medium">#TGT-088</td>
+                                        <td class="py-4">Drone Perimeter Breach</td>
+                                        <td class="py-4"><span class="text-yellow-500">Elevated</span></td>
+                                        <td class="py-4 text-right">
+                                            <button onclick="window.location.href='404.html'" class="bg-red-500/20 text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-4 py-1 rounded text-xs transition-colors">Review</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 text-white font-medium">#TGT-085</td>
+                                        <td class="py-4">Financial Log Anomaly</td>
+                                        <td class="py-4"><span class="text-yellow-500">Elevated</span></td>
+                                        <td class="py-4 text-right">
+                                            <button onclick="window.location.href='404.html'" class="bg-red-500/20 text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-4 py-1 rounded text-xs transition-colors">Review</button>
+                                        </td>
+                                    </tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Panel: Cases -->
+            <div class="dashboard-tab" id="panel-cases">
+                
+                <!-- 1. Cases Header -->
+                <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
+                    <div>
+                        <h3 class="font-serif text-3xl mb-2 text-white">Active Case Files</h3>
+                        <p class="text-sm text-gray-400">Manage and track all ongoing investigations.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="window.location.href='404.html'" class="bg-gold text-black px-6 py-2 uppercase tracking-widest text-xs hover:bg-white transition-colors">Export Cases</button>
+                    </div>
+                </div>
+
+                <!-- 2. Filters -->
+                <div class="bg-black-light border border-white/5 p-4 mb-6 flex flex-wrap gap-4 items-center">
+                    <div class="flex-1 min-w-[200px]">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                            <input type="text" placeholder="Search by Case ID or Target Name..." class="w-full bg-black border border-white/20 text-sm pl-10 pr-4 py-2 focus:outline-none focus:border-gold text-white">
+                        </div>
+                    </div>
+                    <select class="bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white min-w-[150px]">
+                        <option>All Types</option>
+                        <option>Corporate Fraud</option>
+                        <option>Matrimonial</option>
+                        <option>Missing Person</option>
+                        <option>Cyber Forensics</option>
+                    </select>
+                    <select class="bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white min-w-[150px]">
+                        <option>All Statuses</option>
+                        <option>Critical</option>
+                        <option>Active Surveillance</option>
+                        <option>Cold/Pending</option>
+                    </select>
+                </div>
+
+                <!-- 3. Active Cases Data Table -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-max text-left text-sm text-gray-400 whitespace-nowrap">
+                            <thead class="text-xs uppercase tracking-widest text-gray-500 border-b border-white/10">
+                                <tr>
+                                    <th class="pb-4 font-normal px-4">Case ID</th>
+                                    <th class="pb-4 font-normal px-4">Opened</th>
+                                    <th class="pb-4 font-normal px-4">Target</th>
+                                    <th class="pb-4 font-normal px-4">Budget</th>
+                                    <th class="pb-4 font-normal px-4">Type</th>
+                                    <th class="pb-4 font-normal px-4">Status</th>
+                                    <th class="pb-4 font-normal px-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-001</td>
+                                    <td class="py-4 px-4 text-xs">Oct 28, 2026<br><span class="text-gray-500">14:32 PM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">SL</div>
+                                            <div>
+                                                <p class="text-white">Shadow Ledger</p>
+                                                <p class="text-xs text-gray-500">Corporate Shell</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$145,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-briefcase mr-1"></i> Fraud</span></td>
+                                    <td class="py-4 px-4"><span class="text-red-400 border border-red-400/30 bg-red-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Critical</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Update Status"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-002</td>
+                                    <td class="py-4 px-4 text-xs">Oct 27, 2026<br><span class="text-gray-500">09:15 AM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-gold text-black flex items-center justify-center font-serif text-xs">VS</div>
+                                            <div>
+                                                <p class="text-white">V. Sterling</p>
+                                                <p class="text-xs text-gray-500">Individual</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$18,500</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-heart-broken mr-1"></i> Matrimonial</span></td>
+                                    <td class="py-4 px-4"><span class="text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Surveillance</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Update Status"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-004</td>
+                                    <td class="py-4 px-4 text-xs">Oct 25, 2026<br><span class="text-gray-500">16:45 PM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">CT</div>
+                                            <div>
+                                                <p class="text-white">Crimson Tide</p>
+                                                <p class="text-xs text-gray-500">Hacking Group</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$42,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-laptop-code mr-1"></i> Cyber</span></td>
+                                    <td class="py-4 px-4"><span class="text-green-400 border border-green-400/30 bg-green-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Active</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Update Status"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-005</td>
+                                    <td class="py-4 px-4 text-xs">Oct 24, 2026<br><span class="text-gray-500">11:10 AM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">MM</div>
+                                            <div>
+                                                <p class="text-white">Missing Minor</p>
+                                                <p class="text-xs text-gray-500">Private Client</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$60,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-search mr-1"></i> Missing</span></td>
+                                    <td class="py-4 px-4"><span class="text-red-400 border border-red-400/30 bg-red-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Critical</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Update Status"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-006</td>
+                                    <td class="py-4 px-4 text-xs">Oct 22, 2026<br><span class="text-gray-500">18:05 PM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">NX</div>
+                                            <div>
+                                                <p class="text-white">Nexus Corp Leak</p>
+                                                <p class="text-xs text-gray-500">Corporate Shell</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$110,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-laptop-code mr-1"></i> Cyber</span></td>
+                                    <td class="py-4 px-4"><span class="text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Surveillance</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Update Status"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-007</td>
+                                    <td class="py-4 px-4 text-xs">Oct 20, 2026<br><span class="text-gray-500">07:22 AM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">BS</div>
+                                            <div>
+                                                <p class="text-white">Black Syndicate</p>
+                                                <p class="text-xs text-gray-500">Cartel</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$250,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-skull mr-1"></i> Undercover</span></td>
+                                    <td class="py-4 px-4"><span class="text-blue-400 border border-blue-400/30 bg-blue-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Cold</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Update Status"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-008</td>
+                                    <td class="py-4 px-4 text-xs">Oct 19, 2026<br><span class="text-gray-500">14:20 PM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">IW</div>
+                                            <div>
+                                                <p class="text-white">Iron Wall Defalcation</p>
+                                                <p class="text-xs text-gray-500">Corporate Shell</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$35,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-briefcase mr-1"></i> Fraud</span></td>
+                                    <td class="py-4 px-4"><span class="text-green-400 border border-green-400/30 bg-green-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Active</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-009</td>
+                                    <td class="py-4 px-4 text-xs">Oct 18, 2026<br><span class="text-gray-500">09:00 AM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-gold text-black flex items-center justify-center font-serif text-xs">DR</div>
+                                            <div>
+                                                <p class="text-white">D. Richards</p>
+                                                <p class="text-xs text-gray-500">Individual</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$15,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-heart-broken mr-1"></i> Matrimonial</span></td>
+                                    <td class="py-4 px-4"><span class="text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Surveillance</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors opacity-75">
+                                    <td class="py-4 text-white px-4 font-medium">#CASE-010</td>
+                                    <td class="py-4 px-4 text-xs">Oct 15, 2026<br><span class="text-gray-500">11:30 AM</span></td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">ZT</div>
+                                            <div>
+                                                <p class="text-white">Zero Trust Hack</p>
+                                                <p class="text-xs text-gray-500">Tech Firm</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 text-white px-4">$85,000</td>
+                                    <td class="py-4 px-4"><span class="text-gray-400 text-xs"><i class="fas fa-laptop-code mr-1"></i> Cyber</span></td>
+                                    <td class="py-4 px-4"><span class="text-gray-500 border border-white/20 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-widest">Closed</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gray-600 cursor-not-allowed p-2" disabled><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 4. Priorities Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Priority Investigations</h3>
+                    <p class="text-gray-400 mb-8">Cases requiring immediate attention and resource allocation.</p>
+                </div>
+
+                <!-- 5. Priority Kanban (Fraud Flagging Style Grid) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-black border border-red-500/30 p-6 shadow-lg">
+                        <h4 class="text-red-500 font-serif text-xl mb-4 border-b border-red-500/20 pb-2">Critical Action (2)</h4>
+                        <ul class="space-y-4">
+                            <li class="border border-white/5 bg-white/5 p-4">
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gold font-mono">#CASE-001</span>
+                                    <span class="text-red-500">2h Left</span>
+                                </div>
+                                <h5 class="text-white font-medium mb-1">Shadow Ledger</h5>
+                                <p class="text-gray-500 text-[10px]">Wire transfer intercept pending approval.</p>
+                            </li>
+                            <li class="border border-white/5 bg-white/5 p-4">
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gold font-mono">#CASE-007</span>
+                                    <span class="text-red-500">Expired</span>
+                                </div>
+                                <h5 class="text-white font-medium mb-1">Neon Syndicate</h5>
+                                <p class="text-gray-500 text-[10px]">Target missed rendezvous. Re-establish tracking.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-black border border-yellow-500/30 p-6 shadow-lg">
+                        <h4 class="text-yellow-500 font-serif text-xl mb-4 border-b border-yellow-500/20 pb-2">Active Surveillance (1)</h4>
+                        <ul class="space-y-4">
+                            <li class="border border-white/5 bg-white/5 p-4">
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gold font-mono">#CASE-002</span>
+                                    <span class="text-yellow-500">Live</span>
+                                </div>
+                                <h5 class="text-white font-medium mb-1">V. Sterling</h5>
+                                <p class="text-gray-500 text-[10px]">Drone B tracking target on 5th Avenue.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-black border border-blue-500/30 p-6 shadow-lg">
+                        <h4 class="text-blue-500 font-serif text-xl mb-4 border-b border-blue-500/20 pb-2">Pending / Cold (1)</h4>
+                        <ul class="space-y-4">
+                            <li class="border border-white/5 bg-white/5 p-4">
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gold font-mono">#CASE-003</span>
+                                    <span class="text-blue-500">Stalled</span>
+                                </div>
+                                <h5 class="text-white font-medium mb-1">Project Echo</h5>
+                                <p class="text-gray-500 text-[10px]">Awaiting forensic lab results on hard drive.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 6. Metrics Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Resource Metrics</h3>
+                </div>
+
+                <!-- 7. Resource Stats Grid (4 columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Conviction Rate</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">84%</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-green-500" style="width: 84%"></div></div>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Operative Hours</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">1.2K</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-blue-500" style="width: 60%"></div></div>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Lab Capacity</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">95%</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-red-500" style="width: 95%"></div></div>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Avg Closing Time</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">18 Days</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-gold" style="width: 40%"></div></div>
+                    </div>
+                </div>
+
+                <!-- 8 & 9. Evidence Queue & Updates (2 Columns) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                    
+                    <!-- 8. Evidence Queue -->
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-6 text-white">Evidence Processing Queue</h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <p class="text-white text-sm font-medium">Hard Drive Decryption <span class="text-gold font-mono ml-2">#CASE-001</span></p>
+                                        <span class="text-yellow-500 text-xs">In Progress</span>
+                                    </div>
+                                    <p class="text-gray-400 text-xs mt-1">Brute force cracking 65% complete.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <p class="text-white text-sm font-medium">DNA Match <span class="text-gold font-mono ml-2">#CASE-003</span></p>
+                                        <span class="text-green-500 text-xs">Complete</span>
+                                    </div>
+                                    <p class="text-gray-400 text-xs mt-1">Results sent to Lead Operative.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <p class="text-white text-sm font-medium">Ballistics Report <span class="text-gold font-mono ml-2">#CASE-004</span></p>
+                                        <span class="text-gray-500 text-xs">Pending</span>
+                                    </div>
+                                    <p class="text-gray-400 text-xs mt-1">Awaiting external lab analysis.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 9. Recent Case Updates -->
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-6 text-white">Recent Timeline Updates</h4>
+                        <div class="relative border-l border-white/10 ml-3 space-y-6">
+                            <div class="relative pl-6">
+                                <div class="absolute w-2 h-2 bg-gold rounded-full -left-[4.5px] top-1.5 border border-black"></div>
+                                <p class="text-xs text-gray-500 mb-1">Today, 14:32</p>
+                                <p class="text-white text-sm font-medium">Evidence Uploaded <span class="text-gold font-mono ml-2">#CASE-001</span></p>
+                                <p class="text-xs text-gray-400 mt-1">Agent Phoenix uploaded 3 audio recordings.</p>
+                            </div>
+                            <div class="relative pl-6">
+                                <div class="absolute w-2 h-2 bg-white/30 rounded-full -left-[4.5px] top-1.5 border border-black"></div>
+                                <p class="text-xs text-gray-500 mb-1">Today, 09:15</p>
+                                <p class="text-white text-sm font-medium">Status Changed <span class="text-gold font-mono ml-2">#CASE-007</span></p>
+                                <p class="text-xs text-gray-400 mt-1">Case escalated to CRITICAL by Director.</p>
+                            </div>
+                            <div class="relative pl-6">
+                                <div class="absolute w-2 h-2 bg-white/30 rounded-full -left-[4.5px] top-1.5 border border-black"></div>
+                                <p class="text-xs text-gray-500 mb-1">Yesterday, 18:00</p>
+                                <p class="text-white text-sm font-medium">Warrant Issued <span class="text-gold font-mono ml-2">#CASE-004</span></p>
+                                <p class="text-xs text-gray-400 mt-1">Court order secured for digital wiretap.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 10. Archive Search -->
+                <div class="bg-black border border-white/5 p-6 shadow-lg mb-12 flex flex-col md:flex-row items-center gap-6">
+                    <div class="flex-1">
+                        <h4 class="font-serif text-xl text-white mb-2">Deep Archive Search</h4>
+                        <p class="text-sm text-gray-400">Access closed cases and historical files from 1984-2025.</p>
+                    </div>
+                    <div class="relative w-full md:w-96">
+                        <input type="text" placeholder="Search archive by year or keyword..." class="w-full bg-black border border-white/20 text-sm px-4 py-3 focus:outline-none focus:border-gold text-white">
+                        <button onclick="window.location.href='404.html'" class="absolute right-0 top-0 h-full px-4 text-gold hover:text-white transition-colors"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Panel: Intel Reports -->
+            <div class="dashboard-tab" id="panel-intel">
+                
+                <!-- 1. Header -->
+                <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
+                    <div>
+                        <h3 class="font-serif text-3xl mb-2 text-white">Global Intelligence</h3>
+                        <p class="text-sm text-gray-400">Live intercepts, surveillance feeds, and verified intelligence.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="window.location.href='404.html'" class="bg-red-500/20 text-red-500 border border-red-500/50 hover:bg-red-500 hover:text-white px-6 py-2 uppercase tracking-widest text-xs transition-colors">Intercept New</button>
+                    </div>
+                </div>
+
+                <!-- 2. Filters -->
+                <div class="bg-black-light border border-white/5 p-4 mb-6 flex flex-wrap gap-4 items-center">
+                    <div class="flex-1 min-w-[200px]">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                            <input type="text" placeholder="Search Intel by Keyword or IP..." class="w-full bg-black border border-white/20 text-sm pl-10 pr-4 py-2 focus:outline-none focus:border-gold text-white">
+                        </div>
+                    </div>
+                    <select class="bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white min-w-[150px]">
+                        <option>All Sources</option>
+                        <option>Wiretaps</option>
+                        <option>Dark Web</option>
+                        <option>Informants</option>
+                    </select>
+                </div>
+
+                <!-- 3. Intel Log Table -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-max text-left text-sm text-gray-400 whitespace-nowrap">
+                            <thead class="text-xs uppercase tracking-widest text-gray-500 border-b border-white/10">
+                                <tr>
+                                    <th class="pb-4 font-normal px-4">Intercept ID</th>
+                                    <th class="pb-4 font-normal px-4">Time</th>
+                                    <th class="pb-4 font-normal px-4">Source</th>
+                                    <th class="pb-4 font-normal px-4">Confidence</th>
+                                    <th class="pb-4 font-normal px-4">Status</th>
+                                    <th class="pb-4 font-normal px-4 text-right">Playback</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#INT-8842</td>
+                                    <td class="py-4 px-4 text-xs">Today<br><span class="text-gray-500">10:42 AM</span></td>
+                                    <td class="py-4 px-4 text-white">Encrypted VoIP</td>
+                                    <td class="py-4 px-4 text-green-400">92% Match</td>
+                                    <td class="py-4 px-4"><span class="text-red-400 border border-red-400/30 bg-red-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Live</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Play Audio"><i class="fas fa-play"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Download"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#INT-8841</td>
+                                    <td class="py-4 px-4 text-xs">Today<br><span class="text-gray-500">09:15 AM</span></td>
+                                    <td class="py-4 px-4 text-white">Dark Web Forum</td>
+                                    <td class="py-4 px-4 text-yellow-400">65% Match</td>
+                                    <td class="py-4 px-4"><span class="text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Review</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gray-600 cursor-not-allowed p-2" disabled><i class="fas fa-play"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-file-alt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#INT-8839</td>
+                                    <td class="py-4 px-4 text-xs">Yesterday<br><span class="text-gray-500">18:30 PM</span></td>
+                                    <td class="py-4 px-4 text-white">Informant Drop</td>
+                                    <td class="py-4 px-4 text-green-400">99% Match</td>
+                                    <td class="py-4 px-4"><span class="text-gray-500 border border-white/20 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-widest">Verified</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gray-600 cursor-not-allowed p-2" disabled><i class="fas fa-play"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-file-pdf"></i></button>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#INT-8837</td>
+                                    <td class="py-4 px-4 text-xs">Yesterday<br><span class="text-gray-500">11:05 AM</span></td>
+                                    <td class="py-4 px-4 text-white">CCTV Facial Match</td>
+                                    <td class="py-4 px-4 text-green-400">88% Match</td>
+                                    <td class="py-4 px-4"><span class="text-green-400 border border-green-400/30 bg-green-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Logged</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Image"><i class="fas fa-image"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Download"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium">#INT-8835</td>
+                                    <td class="py-4 px-4 text-xs">2 Days Ago<br><span class="text-gray-500">02:15 AM</span></td>
+                                    <td class="py-4 px-4 text-white">Burner Phone Ping</td>
+                                    <td class="py-4 px-4 text-green-400">100% Match</td>
+                                    <td class="py-4 px-4"><span class="text-gray-500 border border-white/20 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-widest">Verified</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="View Map"><i class="fas fa-map-marker-alt"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2" title="Download"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 4. Surveillance Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Visual Surveillance</h3>
+                    <p class="text-gray-400 mb-8">Live camera and drone feeds from active operation sectors.</p>
+                </div>
+
+                <!-- 5. Surveillance Grid (Map Layout Style) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-black border border-white/5 p-4 shadow-lg relative overflow-hidden group">
+                        <img src="assets/corporate_fraud.webp" class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all z-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-0"></div>
+                        <div class="relative z-10 flex flex-col h-32 justify-between">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-red-500 text-white text-[8px] px-2 py-1 uppercase tracking-widest animate-pulse">Live</span>
+                                <span class="text-xs text-white font-mono bg-black/50 px-2 py-1">CAM_01</span>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-serif text-lg mb-1">Corporate HQ</h4>
+                                <p class="text-xs text-gray-300">Sector: Alpha</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black border border-white/5 p-4 shadow-lg relative overflow-hidden group">
+                        <img src="assets/matrimonial.webp" class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all z-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-0"></div>
+                        <div class="relative z-10 flex flex-col h-32 justify-between">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-yellow-500 text-black text-[8px] px-2 py-1 uppercase tracking-widest">Tracking</span>
+                                <span class="text-xs text-white font-mono bg-black/50 px-2 py-1">DRONE_A</span>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-serif text-lg mb-1">Target Escort</h4>
+                                <p class="text-xs text-gray-300">Sector: Delta</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black border border-white/5 p-4 shadow-lg relative flex flex-col items-center justify-center hover:bg-white/5 transition-colors cursor-pointer min-h-[160px]">
+                        <i class="fas fa-plus text-2xl text-gray-500 mb-2"></i>
+                        <span class="text-xs uppercase tracking-widest text-gray-400">Add New Feed</span>
+                    </div>
+                </div>
+
+                <!-- 6. Dark Web Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Dark Web Intercepts</h3>
+                </div>
+
+                <!-- 7. Dark Web Intercepts Log (Alerts format) -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 shrink-0"><i class="fas fa-spider"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Keyword Match: <span class="text-gold">'Shadow Ledger'</span></p>
+                                    <span class="text-gray-500 text-xs">Live Sync</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1 font-mono">onion//xd7f8g.../forum/post/114</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0"><i class="fas fa-spider"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">SCAN: Hidden Marketplace #42</p>
+                                    <span class="text-gray-500 text-xs">2m ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1 font-mono">Crawling 1,452 pages... [OK]</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500 shrink-0"><i class="fas fa-spider"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Keyword Match: <span class="text-gold">'Agent Phoenix'</span></p>
+                                    <span class="text-gray-500 text-xs">15m ago</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1 font-mono">onion//qwe9as.../chat/room_7</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 8. Threat Meter & Crypto Tracker Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <div class="bg-black-light border border-white/5 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+                        <h4 class="font-serif text-xl mb-6 text-white text-center">Global Threat Index</h4>
+                        <div class="w-32 h-16 overflow-hidden relative z-10 mb-4 mt-2">
+                            <div class="w-32 h-32 border-[12px] border-b-transparent border-r-transparent border-yellow-500 border-l-red-500 border-t-red-500 rounded-full transform rotate-45"></div>
+                            <div class="absolute bottom-0 left-1/2 w-1 h-14 bg-white origin-bottom transform rotate-[65deg] shadow-[0_0_5px_white]"></div>
+                        </div>
+                        <h2 class="text-3xl text-red-500 font-serif">DEFCON 3</h2>
+                    </div>
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-4 text-white">Crypto Ledger Trace</h4>
+                        <div class="bg-black p-4 border border-white/5 rounded font-mono text-xs mb-4">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-400">Target Wallet:</span>
+                                <span class="text-gold">1A1zP1e...</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Balance:</span>
+                                <span class="text-white">1,450.44 BTC</span>
+                            </div>
+                        </div>
+                        <ul class="text-xs space-y-3">
+                            <li class="flex justify-between text-gray-400"><span class="text-green-500">+45.0 BTC</span><span>Mixer Node</span></li>
+                            <li class="flex justify-between text-gray-400"><span class="text-red-500">-12.5 BTC</span><span>Unknown Exchange</span></li>
+                            <li class="flex justify-between text-gray-400"><span class="text-red-500">-110.0 BTC</span><span>Cold Wallet</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 9. Syndicates Network Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Known Syndicates Network</h3>
+                    <p class="text-gray-400 mb-8">Organizations and groups actively tracked by the agency.</p>
+                </div>
+
+                <!-- 10. Syndicates Queue Table (Fraud Queue format) -->
+                <div class="bg-black border border-white/5 p-6 shadow-lg mb-12">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-400">
+                            <thead class="text-xs uppercase tracking-widest text-gray-500 border-b border-white/10">
+                                <tr>
+                                    <th class="pb-4 font-normal px-2">Syndicate Name</th>
+                                    <th class="pb-4 font-normal px-2">Known Associates</th>
+                                    <th class="pb-4 font-normal px-2">Active Cases</th>
+                                    <th class="pb-4 font-normal px-2">Threat Level</th>
+                                    <th class="pb-4 font-normal text-right px-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr>
+                                    <td class="py-4 text-white font-medium px-2">Shadow Ledger</td>
+                                    <td class="py-4 px-2">14 Identified</td>
+                                    <td class="py-4 px-2"><span class="text-gold">2</span></td>
+                                    <td class="py-4 px-2"><span class="text-red-500">Critical</span></td>
+                                    <td class="py-4 text-right px-2">
+                                        <button onclick="window.location.href='404.html'" class="bg-white/5 hover:bg-white/10 text-white border border-white/20 px-4 py-1 text-[10px] uppercase tracking-widest transition-colors">View Graph</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 text-white font-medium px-2">Neon Syndicate</td>
+                                    <td class="py-4 px-2">8 Identified</td>
+                                    <td class="py-4 px-2"><span class="text-gold">4</span></td>
+                                    <td class="py-4 px-2"><span class="text-yellow-500">Elevated</span></td>
+                                    <td class="py-4 text-right px-2">
+                                        <button onclick="window.location.href='404.html'" class="bg-white/5 hover:bg-white/10 text-white border border-white/20 px-4 py-1 text-[10px] uppercase tracking-widest transition-colors">View Graph</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Panel: Operatives -->
+            <div class="dashboard-tab" id="panel-operatives">
+                
+                <!-- 1. Header -->
+                <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
+                    <div>
+                        <h3 class="font-serif text-3xl mb-2 text-white">Agency Roster</h3>
+                        <p class="text-sm text-gray-400">Manage field operatives, assets, and cover identities.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="window.location.href='404.html'" class="bg-gold text-black px-6 py-2 uppercase tracking-widest text-xs hover:bg-white transition-colors">Deploy Asset</button>
+                    </div>
+                </div>
+
+                <!-- 2. Filters -->
+                <div class="bg-black-light border border-white/5 p-4 mb-6 flex flex-wrap gap-4 items-center">
+                    <div class="flex-1 min-w-[200px]">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                            <input type="text" placeholder="Search by Codename or Real Name..." class="w-full bg-black border border-white/20 text-sm pl-10 pr-4 py-2 focus:outline-none focus:border-gold text-white">
+                        </div>
+                    </div>
+                    <select class="bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white min-w-[150px]">
+                        <option>All Specializations</option>
+                        <option>Infiltration</option>
+                        <option>Cyber Sec</option>
+                        <option>Extraction</option>
+                    </select>
+                    <select class="bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white min-w-[150px]">
+                        <option>All Statuses</option>
+                        <option>Deployed</option>
+                        <option>Standby</option>
+                        <option>M.I.A</option>
+                    </select>
+                </div>
+
+                <!-- 3. Roster Table -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-max text-left text-sm text-gray-400 whitespace-nowrap">
+                            <thead class="text-xs uppercase tracking-widest text-gray-500 border-b border-white/10">
+                                <tr>
+                                    <th class="pb-4 font-normal px-4">Codename</th>
+                                    <th class="pb-4 font-normal px-4">Clearance</th>
+                                    <th class="pb-4 font-normal px-4">Specialization</th>
+                                    <th class="pb-4 font-normal px-4">Success Rate</th>
+                                    <th class="pb-4 font-normal px-4">Status</th>
+                                    <th class="pb-4 font-normal px-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">P</div>
+                                        <span>Phoenix</span>
+                                    </td>
+                                    <td class="py-4 px-4 font-mono text-xs">Level 9</td>
+                                    <td class="py-4 px-4 text-white">Cyber Forensics</td>
+                                    <td class="py-4 px-4 text-green-400">98%</td>
+                                    <td class="py-4 px-4"><span class="text-green-400 border border-green-400/30 bg-green-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Deployed</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">G</div>
+                                        <span>Ghost</span>
+                                    </td>
+                                    <td class="py-4 px-4 font-mono text-xs">Level 8</td>
+                                    <td class="py-4 px-4 text-white">Infiltration</td>
+                                    <td class="py-4 px-4 text-green-400">95%</td>
+                                    <td class="py-4 px-4"><span class="text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Standby</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors opacity-75">
+                                    <td class="py-4 text-gray-500 px-4 font-medium flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/5 text-gray-600 flex items-center justify-center font-serif text-xs">V</div>
+                                        <span>Viper</span>
+                                    </td>
+                                    <td class="py-4 px-4 font-mono text-xs">Level 9</td>
+                                    <td class="py-4 px-4 text-gray-400">Extraction</td>
+                                    <td class="py-4 px-4 text-green-400">92%</td>
+                                    <td class="py-4 px-4"><span class="text-red-400 border border-red-400/30 bg-red-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">M.I.A</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">R</div>
+                                        <span>Raven</span>
+                                    </td>
+                                    <td class="py-4 px-4 font-mono text-xs">Level 7</td>
+                                    <td class="py-4 px-4 text-white">Surveillance</td>
+                                    <td class="py-4 px-4 text-yellow-400">88%</td>
+                                    <td class="py-4 px-4"><span class="text-green-400 border border-green-400/30 bg-green-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Deployed</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="py-4 text-white px-4 font-medium flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center font-serif text-xs">C</div>
+                                        <span>Cobra</span>
+                                    </td>
+                                    <td class="py-4 px-4 font-mono text-xs">Level 6</td>
+                                    <td class="py-4 px-4 text-white">Interrogation</td>
+                                    <td class="py-4 px-4 text-green-400">97%</td>
+                                    <td class="py-4 px-4"><span class="text-yellow-400 border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-[10px] uppercase tracking-widest">Standby</span></td>
+                                    <td class="py-4 px-4 text-right">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-eye"></i></button>
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 4. Skills Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Agency Skill Distribution</h3>
+                </div>
+
+                <!-- 5. Skills Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Infiltration</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">42</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-gold" style="width: 42%"></div></div>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Cyber Security</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">28</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-blue-500" style="width: 28%"></div></div>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Interrogation</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">15</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-red-500" style="width: 15%"></div></div>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-2 block">Surveillance</span>
+                        <h3 class="font-serif text-3xl mb-2 text-white">75</h3>
+                        <div class="w-full h-1 bg-white/10"><div class="h-full bg-green-500" style="width: 75%"></div></div>
+                    </div>
+                </div>
+
+                <!-- 6. Deployment Map Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Live Asset Deployment Map</h3>
+                    <p class="text-gray-400 mb-8">Real-time GPS tracking of active field operatives.</p>
+                </div>
+
+                <!-- 7. Deployment Map Grid (Identical to Jewellery Global Logistics Map) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-black border border-white/5 p-6 shadow-lg relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-white/5 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-globe-europe"></i></div>
+                        <h4 class="text-white font-serif text-xl mb-2 relative z-10">EMEA Region</h4>
+                        <div class="flex justify-between text-xs text-gray-400 mb-4 relative z-10">
+                            <span>8 Operatives</span>
+                            <span class="text-green-400">Green Status</span>
+                        </div>
+                        <div class="w-full bg-white/10 h-1 mb-2 relative z-10"><div class="bg-green-400 h-1" style="width: 100%"></div></div>
+                    </div>
+                    <div class="bg-black border border-white/5 p-6 shadow-lg relative overflow-hidden group">
+                        <div class="absolute right-0 top-0 text-white/5 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-globe-americas"></i></div>
+                        <h4 class="text-white font-serif text-xl mb-2 relative z-10">Americas Region</h4>
+                        <div class="flex justify-between text-xs text-gray-400 mb-4 relative z-10">
+                            <span>4 Operatives</span>
+                            <span class="text-yellow-500">Comms Blackout (1)</span>
+                        </div>
+                        <div class="w-full bg-white/10 h-1 mb-2 relative z-10"><div class="bg-yellow-500 h-1" style="width: 75%"></div></div>
+                    </div>
+                    <div class="bg-black border border-white/5 p-6 shadow-lg relative overflow-hidden group border-t-2 border-t-red-500">
+                        <div class="absolute right-0 top-0 text-white/5 text-8xl -mt-4 -mr-4 group-hover:scale-110 transition-transform"><i class="fas fa-globe-asia"></i></div>
+                        <h4 class="text-white font-serif text-xl mb-2 relative z-10">APAC Region</h4>
+                        <div class="flex justify-between text-xs text-gray-400 mb-4 relative z-10">
+                            <span>2 Operatives</span>
+                            <span class="text-red-500">Agent Compromised</span>
+                        </div>
+                        <div class="w-full bg-white/10 h-1 mb-2 relative z-10"><div class="bg-red-500 h-1" style="width: 50%"></div></div>
+                    </div>
+                </div>
+
+                <!-- 8. Cover Identities Header -->
+                <div class="flex justify-between items-center mb-6 mt-12">
+                    <h3 class="font-serif text-2xl text-white">Cover Identities Expiration</h3>
+                    <button onclick="window.location.href='404.html'" class="text-xs text-gold uppercase tracking-widest hover:text-white transition-colors">Generate New</button>
+                </div>
+
+                <!-- 9. Cover IDs List (System Alerts format) -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 shrink-0"><i class="fas fa-id-card"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Passport Expiring <span class="text-gold">(Markus Von H.)</span></p>
+                                    <span class="text-red-500 text-xs">2 Days Left</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Assigned to: Agent Phoenix</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0"><i class="fas fa-building"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Shell Company Audit Due</p>
+                                    <span class="text-gray-500 text-xs">14 Days Left</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Global Trade Partners LLC.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 10. Extraction Protocol (Fraud Queue format) -->
+                <div class="mb-12 mt-12">
+                    <h3 class="font-serif text-3xl mb-6 text-white text-red-500">Emergency Extraction</h3>
+                    <div class="bg-black border border-red-500/30 p-6 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h4 class="font-serif text-xl text-white mb-2">Initiate Burn Protocol</h4>
+                            <p class="text-sm text-gray-400 max-w-lg">Instantly wipe all local data devices, sever communications, and dispatch extraction team to Operative's last known GPS coordinates.</p>
+                        </div>
+                        <button onclick="window.location.href='404.html'" class="bg-red-600 hover:bg-red-500 text-white px-8 py-3 uppercase tracking-widest font-bold whitespace-nowrap shadow-[0_0_15px_rgba(220,38,38,0.3)]">Deploy Team</button>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Panel: Settings -->
+            <div class="dashboard-tab" id="panel-settings">
+                
+                <!-- 1. Header -->
+                <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
+                    <div>
+                        <h3 class="font-serif text-3xl mb-2 text-white">Agency Configuration</h3>
+                        <p class="text-sm text-gray-400">System settings, access controls, and security protocols.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="window.location.href='404.html'" class="bg-gold text-black px-6 py-2 uppercase tracking-widest text-xs hover:bg-white transition-colors">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- 2. Preferences Grid (3 Columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-4 text-white">General Preferences</h4>
+                        <div class="space-y-4 text-sm text-gray-400">
+                            <div class="flex justify-between items-center pb-2 border-b border-white/5">
+                                <span>Default Dashboard</span>
+                                <select class="bg-black border border-white/20 text-xs px-2 py-1 text-white"><option>Global Command</option></select>
+                            </div>
+                            <div class="flex justify-between items-center pb-2 border-b border-white/5">
+                                <span>Timezone</span>
+                                <select class="bg-black border border-white/20 text-xs px-2 py-1 text-white"><option>UTC +00:00 (Zulu)</option></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-4 text-white">Notification Matrix</h4>
+                        <div class="space-y-4 text-sm text-gray-400">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" checked class="accent-gold w-4 h-4">
+                                <span>Critical Intel Alerts</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" checked class="accent-gold w-4 h-4">
+                                <span>Operative Distress Beacon</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="accent-gold w-4 h-4">
+                                <span>Daily Summary Briefing</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-4 text-white">Encryption Keys</h4>
+                        <div class="space-y-4 text-sm text-gray-400">
+                            <p class="text-xs">Current RSA Key Pair generated 45 days ago.</p>
+                            <button onclick="window.location.href='404.html'" class="w-full bg-white/5 border border-white/20 hover:text-white py-2 text-xs uppercase tracking-widest transition-colors">Rotate Keys</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Access Control Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Clearance Control</h3>
+                </div>
+
+                <!-- 4. Access Table -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-400">
+                            <thead class="text-xs uppercase tracking-widest text-gray-500 border-b border-white/10">
+                                <tr>
+                                    <th class="pb-4 font-normal px-2">Personnel</th>
+                                    <th class="pb-4 font-normal px-2">Role</th>
+                                    <th class="pb-4 font-normal px-2">Clearance Level</th>
+                                    <th class="pb-4 font-normal px-2">Last Login</th>
+                                    <th class="pb-4 font-normal text-right px-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr>
+                                    <td class="py-4 text-white font-medium px-2">Director Omega</td>
+                                    <td class="py-4 px-2">Admin</td>
+                                    <td class="py-4 px-2"><span class="text-gold font-mono">Level 10 (Apex)</span></td>
+                                    <td class="py-4 px-2">Now</td>
+                                    <td class="py-4 text-right px-2">
+                                        <button onclick="window.location.href='404.html'" class="text-gray-600 cursor-not-allowed p-2" disabled><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 text-white font-medium px-2">Analyst Sigma</td>
+                                    <td class="py-4 px-2">Intel Officer</td>
+                                    <td class="py-4 px-2"><span class="text-blue-400 font-mono">Level 7</span></td>
+                                    <td class="py-4 px-2">2h ago</td>
+                                    <td class="py-4 text-right px-2">
+                                        <button onclick="window.location.href='404.html'" class="text-gold hover:text-white transition-colors p-2"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 5. Financial Settings Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">Retainer Pricing Structure</h3>
+                </div>
+
+                <!-- 6. Retainer Packages Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-black-light p-6 border border-white/5 text-center relative overflow-hidden group">
+                        <h4 class="text-white font-serif text-lg mb-2">Standard</h4>
+                        <p class="text-2xl text-gold mb-4">$5k /mo</p>
+                        <p class="text-xs text-gray-500 mb-6">Basic background checks and digital footprinting.</p>
+                        <button onclick="window.location.href='404.html'" class="w-full bg-white/5 border border-white/20 hover:text-white py-2 text-xs uppercase tracking-widest transition-colors">Edit</button>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5 text-center relative overflow-hidden group">
+                        <h4 class="text-white font-serif text-lg mb-2">Corporate</h4>
+                        <p class="text-2xl text-gold mb-4">$15k /mo</p>
+                        <p class="text-xs text-gray-500 mb-6">Embezzlement scans, counter-surveillance.</p>
+                        <button onclick="window.location.href='404.html'" class="w-full bg-white/5 border border-white/20 hover:text-white py-2 text-xs uppercase tracking-widest transition-colors">Edit</button>
+                    </div>
+                    <div class="bg-black-light p-6 border border-gold text-center relative overflow-hidden group transform scale-105 z-10 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+                        <h4 class="text-white font-serif text-lg mb-2">Black Label</h4>
+                        <p class="text-2xl text-gold mb-4">$50k /mo</p>
+                        <p class="text-xs text-gray-400 mb-6">24/7 dedicated operatives, VIP extraction.</p>
+                        <button onclick="window.location.href='404.html'" class="w-full bg-gold text-black py-2 text-xs uppercase tracking-widest transition-colors">Edit</button>
+                    </div>
+                    <div class="bg-black-light p-6 border border-white/5 text-center relative overflow-hidden group">
+                        <h4 class="text-white font-serif text-lg mb-2">Phantom</h4>
+                        <p class="text-2xl text-gold mb-4">POA</p>
+                        <p class="text-xs text-gray-500 mb-6">Untraceable ghost operations. Invite only.</p>
+                        <button onclick="window.location.href='404.html'" class="w-full bg-white/5 border border-white/20 hover:text-white py-2 text-xs uppercase tracking-widest transition-colors">Edit</button>
+                    </div>
+                </div>
+
+                <!-- 7. Security Audit Log Header -->
+                <div class="mb-6 mt-12">
+                    <h3 class="font-serif text-3xl mb-2 text-white">System Audit Log</h3>
+                </div>
+
+                <!-- 8. Audit Log (Alerts Style) -->
+                <div class="bg-black-light border border-white/5 p-6 mb-12">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4 pb-4 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 shrink-0"><i class="fas fa-terminal"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Auth Configuration Updated</p>
+                                    <span class="text-gray-500 text-xs">Today, 08:00 AM</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">2FA mandated for all Level 7+ personnel.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 shrink-0"><i class="fas fa-terminal"></i></div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <p class="text-white text-sm font-medium">Database Node Sync</p>
+                                    <span class="text-gray-500 text-xs">Yesterday, 11:59 PM</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Swiss secure server mirror completed successfully.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 9. Database Management -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <div class="bg-black-light border border-white/5 p-6">
+                        <h4 class="font-serif text-xl mb-4 text-white">Data Retention Policy</h4>
+                        <p class="text-sm text-gray-400 mb-4">Automatically purge case files and intercepts after retention period expires to minimize liability.</p>
+                        <select class="w-full bg-black border border-white/20 text-sm px-4 py-2 focus:outline-none focus:border-gold text-white mb-4">
+                            <option>Purge after 30 days (Closed Cases)</option>
+                            <option>Purge after 90 days (Closed Cases)</option>
+                            <option>Retain Indefinitely</option>
+                        </select>
+                    </div>
+                    <div class="bg-black-light border border-white/5 p-6 flex flex-col justify-center">
+                        <h4 class="font-serif text-xl mb-4 text-white">Manual Backup</h4>
+                        <p class="text-sm text-gray-400 mb-4">Force an encrypted backup to the cold storage vault in Geneva.</p>
+                        <button onclick="window.location.href='404.html'" class="bg-white/5 border border-white/20 hover:text-gold hover:border-gold py-2 text-xs uppercase tracking-widest transition-colors w-full">Initiate Sequence</button>
+                    </div>
+                </div>
+
+                <!-- 10. Agency Killswitch -->
+                <div class="mb-12 mt-12">
+                    <h3 class="font-serif text-3xl mb-6 text-red-500">Omega Protocol (Killswitch)</h3>
+                    <div class="bg-black border border-red-500/30 p-6 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h4 class="font-serif text-xl text-white mb-2">Complete Server Wipe</h4>
+                            <p class="text-sm text-gray-400 max-w-lg">Zero-fills all agency databases, burns all cover identities, and sends extraction codes to all deployed operatives. This action is irreversible.</p>
+                        </div>
+                        <button onclick="window.location.href='404.html'" class="bg-red-600 hover:bg-red-500 text-white px-8 py-3 uppercase tracking-widest font-bold whitespace-nowrap shadow-[0_0_15px_rgba(220,38,38,0.3)]">Execute Omega</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+    </main>
+
+    <script>
+        function toggleDashboardSidebar() {
+            const sidebar = document.getElementById('dashboard-sidebar');
+            const overlay = document.getElementById('mobile-sidebar-overlay');
+            if (sidebar.classList.contains('hidden')) {
+                // Open sidebar
+                sidebar.classList.remove('hidden');
+                sidebar.classList.add('absolute', 'z-50', 'h-full', 'left-0', 'shadow-2xl');
+                if(overlay) overlay.classList.remove('hidden');
+            } else {
+                // Close sidebar
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('absolute', 'z-50', 'h-full', 'left-0', 'shadow-2xl');
+            if(overlay) overlay.classList.add('hidden');
+        }
+    }
+
+    function switchTab(event, tabId, linkElement) {
+            if(event) event.preventDefault();
+            
+            // Hide all tabs
+            document.querySelectorAll('.dashboard-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active styling from all links
+            document.querySelectorAll('aside nav a').forEach(link => {
+                link.classList.remove('bg-gold/10', 'text-gold', 'border-gold', 'border-l-2');
+                link.classList.add('text-gray-400', 'border-transparent');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active styling to clicked link
+            if(linkElement) {
+                linkElement.classList.remove('text-gray-400', 'border-transparent');
+                linkElement.classList.add('bg-gold/10', 'text-gold', 'border-gold', 'border-l-2');
+            }
+
+            // Close sidebar on mobile
+            if (window.innerWidth < 768) {
+                toggleDashboardSidebar();
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const email = sessionStorage.getItem('stackly_email');
+            if(email) {
+                // Extract name from email (e.g., avunoori0831@gmail.com -> Avunoori0831)
+                let name = email.split('@')[0];
+                name = name.charAt(0).toUpperCase() + name.slice(1);
+                
+                document.querySelectorAll('.auth-user-email').forEach(el => el.textContent = email);
+                document.querySelectorAll('.auth-user-name').forEach(el => el.textContent = name);
+            }
+        });
+    </script>
+</body>
+</html>
