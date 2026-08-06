@@ -65,23 +65,12 @@
         <header class="h-24 bg-black border-b border-white/10 flex items-center justify-between px-8 z-20">
             <div class="flex items-center">
                 <button onclick="toggleDashboardSidebar()" class="md:hidden text-gray-400 hover:text-white mr-4"><i class="fas fa-bars text-xl"></i></button>
+                <a href="#" class="md:hidden flex items-center">
+                    <img src="assets/logo.webp" alt="Stackly Logo" class="h-8" onerror="this.src='https://placehold.co/150x50/0A0A0A/D4AF37.webp?text=Stackly'">
+                </a>
                 <h2 class="font-serif hidden md:block text-2xl text-white">Director Portal</h2>
             </div>
-            <div class="flex items-center space-x-6">
-                <div class="relative group cursor-pointer">
-                    <i class="fas fa-bell text-gray-400 hover:text-gold transition-colors text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="text-right hidden sm:block">
-                        <div class="text-sm text-white font-serif tracking-widest auth-user-name">Director Blackwood</div>
-                        <div class="text-[10px] text-gold uppercase tracking-widest">Level 10 Clearance (Omni)</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full border border-gold/50 flex items-center justify-center bg-black-light text-gold">
-                        <i class="fas fa-user-secret"></i>
-                    </div>
-                </div>
-            </div>
+
         </header>
 
         <!-- Dashboard Content -->
